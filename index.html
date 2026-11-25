@@ -1,0 +1,2013 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MV3D · Hub Commercial & Production 3D</title>
+  <!-- Google Fonts: Plus Jakarta Sans & Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet" />
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'system-ui', 'sans-serif'],
+            display: ['Plus Jakarta Sans', 'Inter', 'system-ui', 'sans-serif'],
+          },
+          colors: {
+            brand: {
+              50: '#FFF7ED',
+              100: '#FFEDD5',
+              200: '#FED7AA',
+              500: '#F97316',
+              600: '#EA580C',
+              700: '#C2410C',
+            }
+          }
+        }
+      }
+    };
+  </script>
+  <style>
+    /* Smooth scrolling & subtle scrollbar */
+    html { scroll-behavior: smooth; }
+    body {
+      background-color: #F8FAFC;
+      color: #0F172A;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+    /* Highlighted variable token inside messages */
+    .var-token {
+      background-color: #FFF7ED;
+      color: #C2410C;
+      border: 1px solid #FED7AA;
+      border-radius: 0.375rem;
+      padding: 0.05rem 0.35rem;
+      font-weight: 600;
+      display: inline;
+      box-decoration-break: clone;
+      -webkit-box-decoration-break: clone;
+    }
+
+    /* Custom range slider */
+    input[type="range"] {
+      accent-color: #F97316;
+    }
+
+    /* Subtle fade animation */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(4px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .animate-fade-in {
+      animation: fadeIn 0.2s ease-out forwards;
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col pb-20 md:pb-8">
+
+  <!-- ==================== HEADER & DESKTOP NAV ==================== -->
+  <header class="sticky top-0 z-40 bg-white/95 backdrop-blur border-b border-slate-200">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between gap-4">
+      <!-- Brand -->
+      <div class="flex items-center gap-3 min-w-0">
+        <div class="w-9 h-9 rounded-xl bg-slate-900 flex items-center justify-center text-brand-500 shadow-sm shrink-0">
+          <!-- 3D Cube Icon -->
+          <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
+            <polyline points="3.27 6.96 12 12.01 20.73 6.96"/>
+            <line x1="12" y1="22.08" x2="12" y2="12"/>
+          </svg>
+        </div>
+        <div class="truncate">
+          <div class="flex items-center gap-2">
+            <span class="font-display font-extrabold text-slate-900 tracking-tight text-base sm:text-lg">MV3D</span>
+            <span class="hidden sm:inline-block text-[11px] font-semibold uppercase tracking-wider px-2 py-0.5 rounded-full bg-brand-50 text-brand-700 border border-brand-200">Hub 3D & CAO</span>
+          </div>
+          <p class="text-xs text-slate-500 truncate">Relances · Marge · Production</p>
+        </div>
+      </div>
+
+      <!-- Desktop Navigation Tabs -->
+      <nav class="hidden md:flex items-center bg-slate-100 p-1 rounded-xl border border-slate-200/80" aria-label="Navigation principale">
+        <button data-tab="messages" class="nav-tab-desktop px-4 py-2 rounded-lg text-sm font-semibold transition-all flex items-center gap-2">
+          <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+          Messages
+        </button>
+        <button data-tab="devis" class="nav-tab-desktop px-4 py-2 rounded-lg text-sm font-semibold transition-all flex items-center gap-2">
+          <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+          Suivi Devis
+          <span id="badge-relances-desktop" class="hidden text-[11px] font-bold px-1.5 py-0.2 rounded-full bg-brand-500 text-white">0</span>
+        </button>
+        <button data-tab="calculateurs" class="nav-tab-desktop px-4 py-2 rounded-lg text-sm font-semibold transition-all flex items-center gap-2">
+          <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="2" width="16" height="20" rx="2"/><line x1="8" y1="6" x2="16" y2="6"/><line x1="16" y1="14" x2="16" y2="18"/><line x1="8" y1="10" x2="8" y2="10.01"/><line x1="12" y1="10" x2="12" y2="10.01"/><line x1="16" y1="10" x2="16" y2="10.01"/><line x1="8" y1="14" x2="8" y2="14.01"/><line x1="12" y1="14" x2="12" y2="14.01"/><line x1="8" y1="18" x2="8" y2="18.01"/><line x1="12" y1="18" x2="12" y2="18.01"/></svg>
+          Calculateurs
+        </button>
+        <button data-tab="playbook" class="nav-tab-desktop px-4 py-2 rounded-lg text-sm font-semibold transition-all flex items-center gap-2">
+          <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+          Playbook 3D
+        </button>
+      </nav>
+
+      <!-- Right Action: Quick Add Custom Message or Relance indicator -->
+      <div class="flex items-center gap-2 shrink-0">
+        <button id="btn-open-add-msg" class="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl bg-slate-900 hover:bg-slate-800 text-white text-xs sm:text-sm font-semibold transition shadow-sm">
+          <svg class="w-4 h-4 text-brand-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          <span class="hidden sm:inline">Message perso</span>
+          <span class="sm:hidden">Perso</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ==================== MAIN CONTENT ==================== -->
+  <main class="flex-1 max-w-6xl w-full mx-auto px-4 sm:px-6 py-5 sm:py-7">
+
+    <!-- ====================================================== -->
+    <!-- VUE 1 : MESSAGES (PAR DÉFAUT)                          -->
+    <!-- ====================================================== -->
+    <section id="view-messages" class="view-section space-y-5 animate-fade-in">
+      <!-- Relance context banner (shown when triggered from CRM) -->
+      <div id="relance-context-banner" class="hidden bg-brand-50 border border-brand-200 rounded-2xl p-3.5 sm:p-4 flex flex-wrap items-center justify-between gap-3">
+        <div class="flex items-center gap-3">
+          <div class="w-9 h-9 rounded-xl bg-brand-500 text-white flex items-center justify-center shrink-0">
+            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+          </div>
+          <div>
+            <p class="text-sm font-bold text-slate-900" id="relance-banner-title">Relance prête pour Julien</p>
+            <p class="text-xs text-slate-600" id="relance-banner-sub">Champs pré-remplis et message filtré automatiquement.</p>
+          </div>
+        </div>
+        <button id="btn-clear-relance-banner" class="text-xs font-semibold text-brand-700 hover:text-brand-900 bg-white border border-brand-200 px-3 py-1.5 rounded-lg">
+          Afficher tous les messages
+        </button>
+      </div>
+
+      <!-- Quick Personalization Bar -->
+      <div class="bg-white border border-slate-200 rounded-2xl shadow-sm overflow-hidden">
+        <div class="px-4 py-3 bg-slate-50/80 border-b border-slate-200 flex items-center justify-between gap-2">
+          <button id="toggle-vars-btn" class="flex items-center gap-2 text-left font-display font-bold text-sm text-slate-900">
+            <span class="w-2 h-2 rounded-full bg-brand-500"></span>
+            Personnalisation en direct des messages
+            <svg id="vars-chevron" class="w-4 h-4 text-slate-500 transition-transform" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <button id="btn-reset-vars" class="text-xs font-semibold text-slate-500 hover:text-brand-600 transition px-2 py-1 rounded-lg hover:bg-slate-100">
+            Réinitialiser
+          </button>
+        </div>
+
+        <div id="vars-panel" class="p-4 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-7 gap-3">
+          <div>
+            <label for="var-client" class="block text-[11px] font-semibold uppercase tracking-wider text-slate-500 mb-1">Prénom client</label>
+            <input id="var-client" type="text" placeholder="Ex: Julien" class="w-full px-3 py-2 text-sm rounded-xl border border-slate-200 focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 outline-none bg-slate-50/50 focus:bg-white transition" />
+          </div>
+          <div class="col-span-2 sm:col-span-2 lg:col-span-2">
+            <label for="var-projet" class="block text-[11px] font-semibold uppercase tracking-wider text-slate-500 mb-1">Projet / Pièce 3D</label>
+            <input id="var-projet" type="text" placeholder="Ex: lightbox LED / sculpture 1m20" class="w-full px-3 py-2 text-sm rounded-xl border border-slate-200 focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 outline-none bg-slate-50/50 focus:bg-white transition" />
+          </div>
+          <div>
+            <label for="var-montant" class="block text-[11px] font-semibold uppercase tracking-wider text-slate-500 mb-1">Devis (€)</label>
+            <input id="var-montant" type="number" min="0" step="10" placeholder="450" class="w-full px-3 py-2 text-sm rounded-xl border border-slate-200 focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 outline-none bg-slate-50/50 focus:bg-white transition" />
+          </div>
+          <div>
+            <label for="var-acompte" class="block text-[11px] font-semibold uppercase tracking-wider text-slate-500 mb-1 flex items-center justify-between">
+              <span>Acompte (€)</span>
+              <span class="text-[10px] text-brand-600 font-bold">40%</span>
+            </label>
+            <input id="var-acompte" type="number" min="0" step="5" placeholder="180" class="w-full px-3 py-2 text-sm rounded-xl border border-slate-200 focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 outline-none bg-slate-50/50 focus:bg-white transition" />
+          </div>
+          <div>
+            <label for="var-rappel" class="block text-[11px] font-semibold uppercase tracking-wider text-slate-500 mb-1">Jour / Heure</label>
+            <input id="var-rappel" type="text" placeholder="jeudi à 18h" class="w-full px-3 py-2 text-sm rounded-xl border border-slate-200 focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 outline-none bg-slate-50/50 focus:bg-white transition" />
+          </div>
+          <div class="col-span-2 sm:col-span-1 grid grid-cols-2 gap-2">
+            <div>
+              <label for="var-moi" class="block text-[11px] font-semibold uppercase tracking-wider text-slate-500 mb-1">Moi</label>
+              <input id="var-moi" type="text" placeholder="Mathis" class="w-full px-2.5 py-2 text-sm rounded-xl border border-slate-200 focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 outline-none bg-slate-50/50 focus:bg-white transition" />
+            </div>
+            <div>
+              <label for="var-entreprise" class="block text-[11px] font-semibold uppercase tracking-wider text-slate-500 mb-1">Atelier</label>
+              <input id="var-entreprise" type="text" placeholder="MV3D" class="w-full px-2.5 py-2 text-sm rounded-xl border border-slate-200 focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 outline-none bg-slate-50/50 focus:bg-white transition" />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Search Bar & Category Pills -->
+      <div class="space-y-3">
+        <div class="relative">
+          <svg class="w-5 h-5 text-slate-400 absolute left-4 top-1/2 -translate-y-1/2 pointer-events-none" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+          </svg>
+          <input id="msg-search" type="text" placeholder="Rechercher un message... (ex: trop cher, J+5, acompte, STL, délai, modification, avis)" class="w-full pl-12 pr-10 py-3.5 rounded-2xl bg-white border border-slate-200 shadow-sm text-sm sm:text-base focus:border-brand-500 focus:ring-4 focus:ring-brand-500/10 outline-none transition" />
+          <button id="btn-clear-search" class="hidden absolute right-3 top-1/2 -translate-y-1/2 p-1.5 rounded-lg text-slate-400 hover:text-slate-700 hover:bg-slate-100" aria-label="Effacer la recherche">
+            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+          </button>
+        </div>
+
+        <!-- Category Filter Pills -->
+        <div id="category-pills" class="flex items-center gap-2 overflow-x-auto no-scrollbar pb-1">
+          <!-- Rendered via JS -->
+        </div>
+      </div>
+
+      <!-- Result count -->
+      <div class="flex items-center justify-between text-xs text-slate-500 px-1">
+        <span id="msg-count-label">22 messages prêts à copier</span>
+        <span>Les favoris ★ apparaissent toujours en premier</span>
+      </div>
+
+      <!-- Messages Grid -->
+      <div id="messages-grid" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <!-- Rendered via JS -->
+      </div>
+    </section>
+
+    <!-- ====================================================== -->
+    <!-- VUE 2 : SUIVI DES DEVIS (MINI-CRM)                     -->
+    <!-- ====================================================== -->
+    <section id="view-devis" class="view-section hidden space-y-5 animate-fade-in">
+      <!-- Top Title & Actions -->
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+        <div>
+          <h1 class="font-display font-extrabold text-xl sm:text-2xl text-slate-900">Suivi des devis 3D</h1>
+          <p class="text-sm text-slate-500">Une ligne par devis. Ouvre mardi et jeudi pendant 10 min et traite les relances du jour.</p>
+        </div>
+        <div class="flex items-center gap-2">
+          <button id="btn-export-csv" class="px-3.5 py-2 rounded-xl bg-white border border-slate-200 hover:bg-slate-50 text-slate-700 text-sm font-semibold transition flex items-center gap-2 shadow-sm">
+            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            Exporter CSV
+          </button>
+          <button id="btn-toggle-quote-form" class="px-4 py-2 rounded-xl bg-brand-500 hover:bg-brand-600 text-white text-sm font-semibold transition flex items-center gap-2 shadow-sm">
+            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            Nouveau devis
+          </button>
+        </div>
+      </div>
+
+      <!-- KPI Cards -->
+      <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+        <div class="bg-white border border-slate-200 rounded-2xl p-4 shadow-sm">
+          <p class="text-xs font-semibold text-slate-500 uppercase tracking-wider">En attente</p>
+          <p id="kpi-pending-amount" class="font-display font-extrabold text-2xl text-slate-900 mt-1">0 €</p>
+          <p id="kpi-pending-count" class="text-xs text-slate-500 mt-0.5">0 devis ouverts</p>
+        </div>
+        <div class="bg-brand-50 border border-brand-200 rounded-2xl p-4 shadow-sm">
+          <p class="text-xs font-semibold text-brand-700 uppercase tracking-wider">À relancer</p>
+          <p id="kpi-to-followup" class="font-display font-extrabold text-2xl text-brand-600 mt-1">0</p>
+          <p class="text-xs text-brand-700/80 mt-0.5">Action recommandée</p>
+        </div>
+        <div class="bg-white border border-slate-200 rounded-2xl p-4 shadow-sm">
+          <p class="text-xs font-semibold text-slate-500 uppercase tracking-wider">Total signé</p>
+          <p id="kpi-signed-amount" class="font-display font-extrabold text-2xl text-emerald-600 mt-1">0 €</p>
+          <p id="kpi-signed-count" class="text-xs text-slate-500 mt-0.5">0 devis signés</p>
+        </div>
+        <div class="bg-white border border-slate-200 rounded-2xl p-4 shadow-sm">
+          <p class="text-xs font-semibold text-slate-500 uppercase tracking-wider">Taux signature</p>
+          <p id="kpi-win-rate" class="font-display font-extrabold text-2xl text-slate-900 mt-1">0 %</p>
+          <p class="text-xs text-slate-500 mt-0.5">Signés / clôturés</p>
+        </div>
+      </div>
+
+      <!-- Add / Edit Quote Form (collapsible) -->
+      <form id="quote-form" class="hidden bg-white border border-brand-200 rounded-2xl p-4 sm:p-5 shadow-sm space-y-4">
+        <div class="flex items-center justify-between">
+          <h2 id="quote-form-title" class="font-display font-bold text-base text-slate-900">Ajouter un devis à suivre</h2>
+          <button type="button" id="btn-cancel-quote" class="text-xs font-semibold text-slate-500 hover:text-slate-800">Fermer</button>
+        </div>
+        <input type="hidden" id="q-id" />
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+          <div>
+            <label class="block text-xs font-semibold text-slate-600 mb-1">Client (Prénom / Nom) *</label>
+            <input id="q-client" type="text" required placeholder="Ex: Julien Martin" class="w-full px-3 py-2 text-sm rounded-xl border border-slate-200 focus:border-brand-500 outline-none" />
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-slate-600 mb-1">Contact (Tél / Insta / Mail)</label>
+            <input id="q-contact" type="text" placeholder="Ex: 06 12 34 56 78 ou @julien" class="w-full px-3 py-2 text-sm rounded-xl border border-slate-200 focus:border-brand-500 outline-none" />
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-slate-600 mb-1">Projet / Pièce 3D *</label>
+            <input id="q-projet" type="text" required placeholder="Ex: Lightbox LED garage 60cm" class="w-full px-3 py-2 text-sm rounded-xl border border-slate-200 focus:border-brand-500 outline-none" />
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-slate-600 mb-1">Montant (€ HT) *</label>
+            <input id="q-montant" type="number" min="0" step="1" required placeholder="380" class="w-full px-3 py-2 text-sm rounded-xl border border-slate-200 focus:border-brand-500 outline-none" />
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-slate-600 mb-1">Date d'envoi *</label>
+            <input id="q-date" type="date" required class="w-full px-3 py-2 text-sm rounded-xl border border-slate-200 focus:border-brand-500 outline-none" />
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-slate-600 mb-1">Statut</label>
+            <select id="q-statut" class="w-full px-3 py-2 text-sm rounded-xl border border-slate-200 focus:border-brand-500 outline-none bg-white">
+              <option value="en_attente">En attente</option>
+              <option value="signe">Signé</option>
+              <option value="perdu">Perdu</option>
+            </select>
+          </div>
+          <div class="sm:col-span-2 lg:col-span-3">
+            <label class="block text-xs font-semibold text-slate-600 mb-1">Note / Raison (blocage, matière, délai...)</label>
+            <input id="q-note" type="text" placeholder="Ex: Attend validation de son associé, hésite sur la couleur..." class="w-full px-3 py-2 text-sm rounded-xl border border-slate-200 focus:border-brand-500 outline-none" />
+          </div>
+        </div>
+        <div class="flex justify-end gap-2 pt-1">
+          <button type="submit" class="px-5 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white text-sm font-semibold transition">
+            Enregistrer le devis
+          </button>
+        </div>
+      </form>
+
+      <!-- Filter status pills for CRM -->
+      <div class="flex items-center gap-2 overflow-x-auto no-scrollbar">
+        <button data-qfilter="all" class="qfilter-pill px-3.5 py-1.5 rounded-full text-xs font-semibold transition">Tous</button>
+        <button data-qfilter="en_attente" class="qfilter-pill px-3.5 py-1.5 rounded-full text-xs font-semibold transition">En attente</button>
+        <button data-qfilter="signe" class="qfilter-pill px-3.5 py-1.5 rounded-full text-xs font-semibold transition">Signés</button>
+        <button data-qfilter="perdu" class="qfilter-pill px-3.5 py-1.5 rounded-full text-xs font-semibold transition">Perdus</button>
+      </div>
+
+      <!-- Quotes List (Responsive Cards on Mobile + Clean Table on Desktop) -->
+      <div id="quotes-container" class="space-y-3">
+        <!-- Rendered via JS -->
+      </div>
+    </section>
+
+    <!-- ====================================================== -->
+    <!-- VUE 3 : CALCULATEURS IMPRESSION 3D                     -->
+    <!-- ====================================================== -->
+    <section id="view-calculateurs" class="view-section hidden space-y-6 animate-fade-in">
+      <div>
+        <h1 class="font-display font-extrabold text-xl sm:text-2xl text-slate-900">Calculateurs Impression 3D</h1>
+        <p class="text-sm text-slate-500">Chiffre l'argent qui dort dans tes devis et vérifie ta marge réelle avant de lancer une imprimante.</p>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 items-start">
+        <!-- CALCULATEUR 1 : L'argent qui attend une réponse -->
+        <div class="bg-white border border-slate-200 rounded-2xl p-5 sm:p-6 shadow-sm space-y-5">
+          <div class="flex items-start justify-between gap-3">
+            <div>
+              <span class="text-[11px] font-bold uppercase tracking-wider text-brand-600 bg-brand-50 px-2.5 py-1 rounded-full">Potentiel commercial</span>
+              <h2 class="font-display font-extrabold text-lg sm:text-xl text-slate-900 mt-2">L'argent qui attend une réponse</h2>
+              <p class="text-xs text-slate-500 mt-0.5">Ce que représentent tes devis déjà envoyés si tu les relances proprement.</p>
+            </div>
+          </div>
+
+          <div class="space-y-4">
+            <div>
+              <div class="flex justify-between text-sm font-semibold mb-1.5">
+                <label for="calc1-nb" class="text-slate-700">Devis envoyés sans réponse</label>
+                <span class="text-brand-600 font-bold" id="calc1-nb-val">10 devis</span>
+              </div>
+              <div class="flex items-center gap-3">
+                <input id="calc1-nb-range" type="range" min="1" max="50" value="10" class="flex-1" />
+                <input id="calc1-nb" type="number" min="1" max="500" value="10" class="w-20 px-2.5 py-1.5 text-sm font-semibold text-right rounded-xl border border-slate-200" />
+              </div>
+            </div>
+
+            <div>
+              <div class="flex justify-between text-sm font-semibold mb-1.5">
+                <label for="calc1-avg" class="text-slate-700">Montant moyen d'un devis (€ HT)</label>
+                <span class="text-brand-600 font-bold" id="calc1-avg-val">450 €</span>
+              </div>
+              <div class="flex items-center gap-3">
+                <input id="calc1-avg-range" type="range" min="50" max="5000" step="50" value="450" class="flex-1" />
+                <input id="calc1-avg" type="number" min="10" step="10" value="450" class="w-24 px-2.5 py-1.5 text-sm font-semibold text-right rounded-xl border border-slate-200" />
+              </div>
+            </div>
+
+            <div>
+              <div class="flex justify-between text-sm font-semibold mb-1.5">
+                <label for="calc1-signed" class="text-slate-700">CA déjà signé ce mois / trimestre (optionnel)</label>
+              </div>
+              <input id="calc1-signed" type="number" min="0" step="100" value="4500" class="w-full px-3 py-2 text-sm font-semibold rounded-xl border border-slate-200" />
+            </div>
+          </div>
+
+          <!-- Result Box -->
+          <div class="bg-slate-900 text-white rounded-2xl p-5 space-y-4">
+            <div>
+              <p class="text-xs text-slate-400 uppercase tracking-wider font-semibold">Total qui dort dans tes devis</p>
+              <p id="calc1-total" class="font-display font-extrabold text-3xl sm:text-4xl text-brand-500 mt-1">4 500 €</p>
+            </div>
+            <div class="grid grid-cols-3 gap-2 pt-3 border-t border-slate-800">
+              <div class="bg-slate-800/80 rounded-xl p-2.5 text-center">
+                <p class="text-[11px] text-slate-400">+1 signature</p>
+                <p id="calc1-s1" class="font-display font-bold text-sm sm:text-base text-white mt-0.5">+450 €</p>
+              </div>
+              <div class="bg-slate-800/80 rounded-xl p-2.5 text-center">
+                <p class="text-[11px] text-slate-400">+2 signatures</p>
+                <p id="calc1-s2" class="font-display font-bold text-sm sm:text-base text-white mt-0.5">+900 €</p>
+              </div>
+              <div class="bg-brand-500/20 border border-brand-500/40 rounded-xl p-2.5 text-center">
+                <p class="text-[11px] text-brand-200">+3 signatures</p>
+                <p id="calc1-s3" class="font-display font-bold text-sm sm:text-base text-brand-400 mt-0.5">+1 350 €</p>
+              </div>
+            </div>
+            <p id="calc1-boost" class="text-xs text-slate-300 text-center">
+              3 signatures récupérées = <strong class="text-white">+30,0 %</strong> de CA en plus sur tes 4 500 € déjà signés.
+            </p>
+          </div>
+        </div>
+
+        <!-- CALCULATEUR 2 : Marge réelle d'un projet 3D -->
+        <div class="bg-white border border-slate-200 rounded-2xl p-5 sm:p-6 shadow-sm space-y-5">
+          <div>
+            <span class="text-[11px] font-bold uppercase tracking-wider text-slate-700 bg-slate-100 px-2.5 py-1 rounded-full">Rentabilité atelier</span>
+            <h2 class="font-display font-extrabold text-lg sm:text-xl text-slate-900 mt-2">Ce que ce projet 3D te laisse vraiment</h2>
+            <p class="text-xs text-slate-500 mt-0.5">Inclus matière, machine, temps humain réel (CAO + post-traitement) et taux de raté.</p>
+          </div>
+
+          <div class="grid grid-cols-2 gap-3">
+            <div class="col-span-2">
+              <label class="block text-xs font-semibold text-slate-600 mb-1">Montant du devis vendu (€ HT)</label>
+              <input id="c2-devis" type="number" min="0" step="10" value="450" class="w-full px-3 py-2 text-base font-bold rounded-xl border border-slate-200 focus:border-brand-500 outline-none" />
+            </div>
+
+            <div>
+              <label class="block text-xs font-semibold text-slate-600 mb-1">Matière (kg filament/résine)</label>
+              <input id="c2-kg" type="number" min="0" step="0.1" value="1.5" class="w-full px-3 py-2 text-sm rounded-xl border border-slate-200 focus:border-brand-500 outline-none" />
+            </div>
+            <div>
+              <label class="block text-xs font-semibold text-slate-600 mb-1">Prix matière (€/kg)</label>
+              <input id="c2-prixkg" type="number" min="0" step="1" value="25" class="w-full px-3 py-2 text-sm rounded-xl border border-slate-200 focus:border-brand-500 outline-none" />
+            </div>
+
+            <div class="col-span-2">
+              <label class="block text-xs font-semibold text-slate-600 mb-1">Consommables, inserts, LEDs, peinture, emballage & port (€)</label>
+              <input id="c2-conso" type="number" min="0" step="1" value="35" class="w-full px-3 py-2 text-sm rounded-xl border border-slate-200 focus:border-brand-500 outline-none" />
+            </div>
+
+            <div>
+              <label class="block text-xs font-semibold text-slate-600 mb-1">Temps machine (heures print)</label>
+              <input id="c2-print-h" type="number" min="0" step="1" value="28" class="w-full px-3 py-2 text-sm rounded-xl border border-slate-200 focus:border-brand-500 outline-none" />
+            </div>
+            <div>
+              <label class="block text-xs font-semibold text-slate-600 mb-1">Coût élec + usure (€/h)</label>
+              <input id="c2-print-rate" type="number" min="0" step="0.05" value="0.35" class="w-full px-3 py-2 text-sm rounded-xl border border-slate-200 focus:border-brand-500 outline-none" />
+            </div>
+
+            <div>
+              <label class="block text-xs font-semibold text-slate-600 mb-1">Temps humain (CAO, slicing, fini, client)</label>
+              <input id="c2-human-h" type="number" min="0" step="0.5" value="4.5" class="w-full px-3 py-2 text-sm rounded-xl border border-slate-200 focus:border-brand-500 outline-none" />
+            </div>
+            <div>
+              <label class="block text-xs font-semibold text-slate-600 mb-1">Ton coût horaire cible (€/h)</label>
+              <input id="c2-human-rate" type="number" min="0" step="1" value="35" class="w-full px-3 py-2 text-sm rounded-xl border border-slate-200 focus:border-brand-500 outline-none" />
+            </div>
+
+            <div class="col-span-2">
+              <div class="flex justify-between text-xs font-semibold text-slate-600 mb-1">
+                <label for="c2-fail">Marge d'échec / reprise estimée (% sur matière + machine)</label>
+                <span id="c2-fail-val" class="text-brand-600 font-bold">15 %</span>
+              </div>
+              <input id="c2-fail" type="range" min="0" max="50" step="5" value="15" class="w-full" />
+            </div>
+          </div>
+
+          <!-- Margin Results -->
+          <div id="c2-result-card" class="rounded-2xl p-4 sm:p-5 border transition-colors space-y-4">
+            <div class="flex items-start justify-between gap-3">
+              <div>
+                <p class="text-xs font-semibold uppercase tracking-wider opacity-80">Marge nette réelle</p>
+                <p id="c2-margin-eur" class="font-display font-extrabold text-3xl mt-0.5">0 €</p>
+              </div>
+              <div class="text-right">
+                <span id="c2-health-badge" class="inline-block text-xs font-bold px-3 py-1 rounded-full">Saine</span>
+                <p id="c2-margin-pct" class="font-display font-extrabold text-xl mt-1">0 %</p>
+              </div>
+            </div>
+
+            <div class="grid grid-cols-2 gap-3 pt-3 border-t border-black/10 text-sm">
+              <div>
+                <p class="text-xs opacity-75">Coût total réel</p>
+                <p id="c2-total-cost" class="font-bold">0 €</p>
+              </div>
+              <div>
+                <p class="text-xs opacity-75">Taux horaire réel gagné</p>
+                <p id="c2-real-hourly" class="font-bold">0 €/h</p>
+              </div>
+            </div>
+
+            <!-- Cost breakdown bar -->
+            <div class="space-y-1.5">
+              <div class="w-full h-3 rounded-full bg-slate-200 overflow-hidden flex" id="c2-bar"></div>
+              <div class="flex flex-wrap gap-x-3 gap-y-1 text-[11px] font-medium text-slate-600" id="c2-legend"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ====================================================== -->
+    <!-- VUE 4 : PLAYBOOK 3D + CHECKLIST + OBJECTIF 4 MOIS      -->
+    <!-- ====================================================== -->
+    <section id="view-playbook" class="view-section hidden space-y-6 animate-fade-in">
+      <!-- Intro Hero -->
+      <div class="bg-slate-900 text-white rounded-3xl p-6 sm:p-8 shadow-sm relative overflow-hidden">
+        <div class="relative z-10 max-w-3xl space-y-3">
+          <span class="inline-block text-[11px] font-bold uppercase tracking-widest text-brand-400 bg-brand-500/15 border border-brand-500/30 px-3 py-1 rounded-full">MV3D · Méthode Terrain</span>
+          <h1 class="font-display font-extrabold text-2xl sm:text-3xl leading-tight">
+            Comment faire +30 % de CA en impression 3D sans brader tes prix ni offrir tes heures
+          </h1>
+          <p class="text-sm sm:text-base text-slate-300 leading-relaxed">
+            Tu as répondu au message, analysé le STL, calculé le filament, envoyé le devis… puis silence radio. Son silence ne veut pas dire non. Cette méthode a deux parties : <strong>signer les devis qui dorment</strong>, puis <strong>garder ta marge sur chaque projet lancé</strong>.
+          </p>
+        </div>
+      </div>
+
+      <!-- 4-Month Goal Card -->
+      <div class="bg-white border-2 border-brand-200 rounded-2xl p-5 sm:p-6 shadow-sm space-y-4">
+        <div class="flex items-center justify-between gap-3">
+          <div class="flex items-center gap-2.5">
+            <div class="w-9 h-9 rounded-xl bg-brand-500 text-white flex items-center justify-center shrink-0">
+              <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
+            </div>
+            <div>
+              <h2 class="font-display font-extrabold text-base sm:text-lg text-slate-900">Ton objectif chiffré à 4 mois</h2>
+              <p class="text-xs text-slate-500">Une phrase claire, une date et le moyen concret d'y arriver.</p>
+            </div>
+          </div>
+          <button id="btn-edit-goal" class="hidden text-xs font-semibold text-brand-600 hover:text-brand-800 px-3 py-1.5 rounded-lg bg-brand-50">Modifier</button>
+        </div>
+
+        <!-- Goal Display Mode -->
+        <div id="goal-display" class="hidden bg-brand-50/70 border border-brand-200 rounded-xl p-4 space-y-1.5">
+          <p id="goal-display-text" class="font-display font-bold text-base sm:text-lg text-slate-900"></p>
+          <p id="goal-display-meta" class="text-xs font-semibold text-brand-700"></p>
+        </div>
+
+        <!-- Goal Form Mode -->
+        <form id="goal-form" class="space-y-3">
+          <textarea id="goal-input" rows="2" placeholder="Ex : Atteindre 6 000 €/mois de CA d'ici septembre en relançant 100 % des devis et en prenant 40 % d'acompte systématique." class="w-full px-3.5 py-2.5 text-sm rounded-xl border border-slate-200 focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 outline-none"></textarea>
+          <div class="flex flex-col sm:flex-row gap-3 sm:items-center justify-between">
+            <div class="flex items-center gap-2">
+              <label for="goal-date" class="text-xs font-semibold text-slate-600">Date cible :</label>
+              <input id="goal-date" type="date" class="px-3 py-1.5 text-sm rounded-xl border border-slate-200 focus:border-brand-500 outline-none" />
+            </div>
+            <button type="submit" class="px-5 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white text-sm font-semibold transition">
+              Valider mon objectif
+            </button>
+          </div>
+        </form>
+      </div>
+
+      <!-- Interactive Checklist: Ce que tu fais demain -->
+      <div class="bg-white border border-slate-200 rounded-2xl p-5 sm:p-6 shadow-sm space-y-4">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+          <div>
+            <h2 class="font-display font-extrabold text-lg text-slate-900">Plan d'action : Ce que tu fais demain</h2>
+            <p class="text-xs text-slate-500">Coche chaque étape au fur et à mesure (sauvegardé automatiquement).</p>
+          </div>
+          <span id="checklist-progress-label" class="text-xs font-bold text-brand-600 bg-brand-50 px-3 py-1 rounded-full self-start sm:self-auto">0 / 6 complétés</span>
+        </div>
+        <div class="w-full h-2.5 bg-slate-100 rounded-full overflow-hidden">
+          <div id="checklist-progress-bar" class="h-full bg-brand-500 transition-all duration-300" style="width: 0%"></div>
+        </div>
+        <div id="checklist-items" class="space-y-2.5">
+          <!-- Rendered via JS -->
+        </div>
+      </div>
+
+      <!-- 2-Part Playbook Grid -->
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <!-- PARTIE 1 -->
+        <div class="bg-white border border-slate-200 rounded-2xl p-5 sm:p-6 shadow-sm space-y-5">
+          <div class="border-b border-slate-100 pb-3">
+            <span class="text-xs font-bold uppercase tracking-wider text-brand-600">Partie 1</span>
+            <h2 class="font-display font-extrabold text-xl text-slate-900 mt-0.5">Signer plus de devis</h2>
+          </div>
+
+          <div class="space-y-4 text-sm text-slate-700 leading-relaxed">
+            <div class="p-3.5 rounded-xl bg-slate-50 border border-slate-100">
+              <h3 class="font-bold text-slate-900 mb-1">1. Commence par tes 10 derniers devis</h3>
+              <p>Ne remonte pas 6 mois en arrière ce soir. Prends tes 10 derniers devis sans réponse dans tes mails, Insta ou WhatsApp et ajoute-les dans l'onglet <strong>Suivi Devis</strong>. Compte 20 minutes max.</p>
+            </div>
+            <div class="p-3.5 rounded-xl bg-slate-50 border border-slate-100">
+              <h3 class="font-bold text-slate-900 mb-1">2. Routine 2 × 10 minutes par semaine</h3>
+              <p>Mets deux alarmes dans ton téléphone (ex : <strong>mardi et jeudi à 18h10</strong>). Ouvre ton suivi, clique sur <strong>Relancer →</strong> et envoie le bon script (J+2, J+5, J+10 ou J+20). Pour un vieux devis, envoie directement le J+20.</p>
+            </div>
+            <div class="p-3.5 rounded-xl bg-slate-50 border border-slate-100">
+              <h3 class="font-bold text-slate-900 mb-1">3. Qualifie le brief avant de modéliser</h3>
+              <p>Ne passe jamais 2h sur Fusion 360 ou Blender gratuitement. Vérifie avant : dimensions exactes, usage (intérieur/extérieur, mécanique), finition attendue, date souhaitée et budget indicatif.</p>
+            </div>
+            <div class="p-3.5 rounded-xl bg-slate-50 border border-slate-100">
+              <h3 class="font-bold text-slate-900 mb-1">4. Acompte 30 à 50 % avant de lancer</h3>
+              <p>L'acompte couvre le filament/résine, les composants (LEDs, inserts, peinture) et ton temps CAO. <strong>Zéro impression lancée sans acompte encaissé.</strong> Écris le pourcentage et le montant noir sur blanc sur le devis.</p>
+            </div>
+            <div class="p-3.5 rounded-xl bg-slate-50 border border-slate-100">
+              <h3 class="font-bold text-slate-900 mb-1">5. Objections : ajuste le périmètre, pas ta marge</h3>
+              <p>S'il dit « c'est trop cher », ne fais jamais une remise gratuite. Retire un vrai poste : passer en brut sans ponçage/peinture, réduire légèrement la taille ou simplifier la finition. Même travail = même prix.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- PARTIE 2 -->
+        <div class="bg-white border border-slate-200 rounded-2xl p-5 sm:p-6 shadow-sm space-y-5">
+          <div class="border-b border-slate-100 pb-3">
+            <span class="text-xs font-bold uppercase tracking-wider text-slate-500">Partie 2</span>
+            <h2 class="font-display font-extrabold text-xl text-slate-900 mt-0.5">Garder sa marge sur chaque projet</h2>
+          </div>
+
+          <div class="space-y-4 text-sm text-slate-700 leading-relaxed">
+            <div class="p-3.5 rounded-xl bg-slate-50 border border-slate-100">
+              <h3 class="font-bold text-slate-900 mb-1">6. Budgete tout avant de lancer les machines</h3>
+              <p>Avant chaque gros projet, passe-le dans le <strong>Calculateur de marge</strong> : kg de matière, consommables, heures d'impression, <strong>heures humaines réelles</strong> (CAO + slicing + nettoyage + ponçage) et 15 % de sécurité ratés.</p>
+            </div>
+            <div class="p-3.5 rounded-xl bg-slate-50 border border-slate-100">
+              <h3 class="font-bold text-slate-900 mb-1">7. Validation écrite du rendu 3D avant impression</h3>
+              <p>Envoie toujours une capture du modèle CAO avec les cotes principales et demande un <strong>« OK pour lancement »</strong> écrit. Ça coupe 90 % des malentendus et des réimpressions à tes frais.</p>
+            </div>
+            <div class="p-3.5 rounded-xl bg-slate-50 border border-slate-100">
+              <h3 class="font-bold text-slate-900 mb-1">8. Suis tes heures CAO, post-traitement et ratés</h3>
+              <p>Ce qui mange la marge en 3D, ce n'est pas le PLA : ce sont les 3 heures de retouche CAO non comptées, le ponçage/apprêt qui s'allonge et le print de 18h qui se décolle à 85 %. Note tout sur la fiche du projet.</p>
+            </div>
+            <div class="p-3.5 rounded-xl bg-slate-50 border border-slate-100">
+              <h3 class="font-bold text-slate-900 mb-1">9. Zéro modification gratuite hors devis</h3>
+              <p>Le client veut changer une cote ou ajouter un logo après validation ? Utilise le script <strong>Modification hors devis</strong> : tu annonces le temps CAO/print supplémentaire et tu fais valider l'avenant avant de toucher au fichier.</p>
+            </div>
+            <div class="p-3.5 rounded-xl bg-slate-50 border border-slate-100">
+              <h3 class="font-bold text-slate-900 mb-1">10. Bilan de fin de projet en 10 minutes</h3>
+              <p>Une fois livré, compare le prévu vs le réel (heures + matière + ratés). Note <strong>une seule correction</strong> pour le prochain projet similaire (ex : « facturer le post-traitement à part », « ajouter 2h de CAO »).</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ==================== MOBILE BOTTOM NAV ==================== -->
+  <nav class="md:hidden fixed bottom-0 inset-x-0 z-40 bg-white/95 backdrop-blur border-t border-slate-200 px-2 py-1.5 flex items-center justify-around" aria-label="Navigation mobile">
+    <button data-tab="messages" class="nav-tab-mobile flex flex-col items-center gap-0.5 px-3 py-1.5 rounded-xl text-[11px] font-semibold transition">
+      <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+      Messages
+    </button>
+    <button data-tab="devis" class="nav-tab-mobile relative flex flex-col items-center gap-0.5 px-3 py-1.5 rounded-xl text-[11px] font-semibold transition">
+      <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+      Devis
+      <span id="badge-relances-mobile" class="hidden absolute top-0.5 right-1 text-[10px] font-bold px-1.5 rounded-full bg-brand-500 text-white">0</span>
+    </button>
+    <button data-tab="calculateurs" class="nav-tab-mobile flex flex-col items-center gap-0.5 px-3 py-1.5 rounded-xl text-[11px] font-semibold transition">
+      <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="2" width="16" height="20" rx="2"/><line x1="8" y1="6" x2="16" y2="6"/><line x1="16" y1="14" x2="16" y2="18"/></svg>
+      Calculs
+    </button>
+    <button data-tab="playbook" class="nav-tab-mobile flex flex-col items-center gap-0.5 px-3 py-1.5 rounded-xl text-[11px] font-semibold transition">
+      <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+      Playbook
+    </button>
+  </nav>
+
+  <!-- ==================== MODAL : AJOUTER UN MESSAGE PERSO ==================== -->
+  <div id="modal-add-msg" class="hidden fixed inset-0 z-50 bg-slate-900/50 backdrop-blur-xs flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl border border-slate-200 shadow-xl w-full max-w-lg overflow-hidden animate-fade-in">
+      <div class="px-5 py-4 border-b border-slate-100 flex items-center justify-between">
+        <h3 class="font-display font-bold text-base text-slate-900">Créer un message personnalisé</h3>
+        <button id="btn-close-modal-msg" class="p-1.5 rounded-lg text-slate-400 hover:text-slate-700 hover:bg-slate-100">
+          <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+      <form id="form-add-msg" class="p-5 space-y-4">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div>
+            <label class="block text-xs font-semibold text-slate-600 mb-1">Titre du script *</label>
+            <input id="custom-msg-title" type="text" required placeholder="Ex: Relance fichier STL manquant" class="w-full px-3 py-2 text-sm rounded-xl border border-slate-200 focus:border-brand-500 outline-none" />
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-slate-600 mb-1">Catégorie</label>
+            <select id="custom-msg-cat" class="w-full px-3 py-2 text-sm rounded-xl border border-slate-200 focus:border-brand-500 outline-none bg-white">
+              <option value="qualification">Qualification & Brief</option>
+              <option value="devis">Devis & Acompte</option>
+              <option value="relances">Relances (J+2 à J+20)</option>
+              <option value="objections">Objections</option>
+              <option value="production">Production & Modifs</option>
+              <option value="livraison">Livraison & Avis</option>
+            </select>
+          </div>
+        </div>
+        <div>
+          <label class="block text-xs font-semibold text-slate-600 mb-1">Quand l'utiliser (1 ligne)</label>
+          <input id="custom-msg-when" type="text" placeholder="Ex: Quand le client n'a pas encore envoyé son fichier 3D" class="w-full px-3 py-2 text-sm rounded-xl border border-slate-200 focus:border-brand-500 outline-none" />
+        </div>
+        <div>
+          <div class="flex items-center justify-between mb-1">
+            <label class="block text-xs font-semibold text-slate-600">Texte du message *</label>
+            <span class="text-[11px] text-slate-400">Clique pour insérer une variable :</span>
+          </div>
+          <div class="flex flex-wrap gap-1.5 mb-2">
+            <button type="button" data-insert="{client}" class="insert-var-btn text-[11px] font-semibold px-2 py-0.5 rounded-md bg-brand-50 text-brand-700 border border-brand-200 hover:bg-brand-100">{client}</button>
+            <button type="button" data-insert="{projet}" class="insert-var-btn text-[11px] font-semibold px-2 py-0.5 rounded-md bg-brand-50 text-brand-700 border border-brand-200 hover:bg-brand-100">{projet}</button>
+            <button type="button" data-insert="{montant}" class="insert-var-btn text-[11px] font-semibold px-2 py-0.5 rounded-md bg-brand-50 text-brand-700 border border-brand-200 hover:bg-brand-100">{montant}</button>
+            <button type="button" data-insert="{acompte}" class="insert-var-btn text-[11px] font-semibold px-2 py-0.5 rounded-md bg-brand-50 text-brand-700 border border-brand-200 hover:bg-brand-100">{acompte}</button>
+            <button type="button" data-insert="{rappel}" class="insert-var-btn text-[11px] font-semibold px-2 py-0.5 rounded-md bg-brand-50 text-brand-700 border border-brand-200 hover:bg-brand-100">{rappel}</button>
+            <button type="button" data-insert="{moi}" class="insert-var-btn text-[11px] font-semibold px-2 py-0.5 rounded-md bg-brand-50 text-brand-700 border border-brand-200 hover:bg-brand-100">{moi}</button>
+            <button type="button" data-insert="{entreprise}" class="insert-var-btn text-[11px] font-semibold px-2 py-0.5 rounded-md bg-brand-50 text-brand-700 border border-brand-200 hover:bg-brand-100">{entreprise}</button>
+          </div>
+          <textarea id="custom-msg-body" rows="4" required placeholder="Bonjour {client}, c'est {moi} de {entreprise}..." class="w-full px-3 py-2 text-sm rounded-xl border border-slate-200 focus:border-brand-500 outline-none"></textarea>
+        </div>
+        <div class="flex justify-end gap-2 pt-2">
+          <button type="button" id="btn-cancel-modal-msg" class="px-4 py-2 rounded-xl text-sm font-semibold text-slate-600 hover:bg-slate-100">Annuler</button>
+          <button type="submit" class="px-5 py-2 rounded-xl bg-brand-500 hover:bg-brand-600 text-white text-sm font-semibold shadow-sm">Enregistrer</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ==================== TOAST NOTIFICATION ==================== -->
+  <div id="toast" class="fixed bottom-20 md:bottom-6 right-4 sm:right-6 z-50 pointer-events-none opacity-0 translate-y-2 transition-all duration-200">
+    <div class="bg-slate-900 text-white px-4 py-2.5 rounded-xl shadow-lg text-sm font-semibold flex items-center gap-2 border border-slate-700">
+      <svg class="w-4 h-4 text-emerald-400 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+      <span id="toast-text">Message copié !</span>
+    </div>
+  </div>
+
+  <!-- ==================== JAVASCRIPT APPLICATION ==================== -->
+  <script>
+    (function () {
+      'use strict';
+
+      /* ============================================================
+         1. STORAGE HELPERS (SAFE TRY/CATCH)
+      ============================================================ */
+      const STORAGE_KEYS = {
+        VARS: 'mv3d_vars_v1',
+        FAVS: 'mv3d_favs_v1',
+        CUSTOM_MSGS: 'mv3d_custom_msgs_v1',
+        QUOTES: 'mv3d_quotes_v1',
+        CHECKLIST: 'mv3d_checklist_v1',
+        GOAL: 'mv3d_goal_v1',
+      };
+
+      function loadJSON(key, fallback) {
+        try {
+          const raw = localStorage.getItem(key);
+          return raw ? JSON.parse(raw) : fallback;
+        } catch (e) {
+          return fallback;
+        }
+      }
+
+      function saveJSON(key, value) {
+        try {
+          localStorage.setItem(key, JSON.stringify(value));
+        } catch (e) {
+          // Ignore storage quota / private mode errors gracefully
+        }
+      }
+
+      /* ============================================================
+         2. DATA: CATEGORIES & 22 BUILT-IN 3D PRINTING MESSAGES
+      ============================================================ */
+      const CATEGORIES = [
+        { id: 'all', label: 'Tous', badgeClass: 'bg-slate-100 text-slate-700' },
+        { id: 'favoris', label: '★ Favoris', badgeClass: 'bg-amber-100 text-amber-800' },
+        { id: 'qualification', label: 'Qualification & Brief', badgeClass: 'bg-sky-50 text-sky-700 border border-sky-200' },
+        { id: 'devis', label: 'Devis & Acompte', badgeClass: 'bg-emerald-50 text-emerald-700 border border-emerald-200' },
+        { id: 'relances', label: 'Relances (J+2 à J+20)', badgeClass: 'bg-brand-50 text-brand-700 border border-brand-200' },
+        { id: 'objections', label: 'Objections', badgeClass: 'bg-rose-50 text-rose-700 border border-rose-200' },
+        { id: 'production', label: 'Production & Modifs', badgeClass: 'bg-violet-50 text-violet-700 border border-violet-200' },
+        { id: 'livraison', label: 'Livraison & Avis', badgeClass: 'bg-teal-50 text-teal-700 border border-teal-200' },
+      ];
+
+      const DEFAULT_MESSAGES = [
+        // --- QUALIFICATION & BRIEF ---
+        {
+          id: 'q1',
+          category: 'qualification',
+          title: 'Demande de précisions (sans fichier 3D)',
+          when: 'Le prospect te contacte avec une idée mais aucun fichier STL/STEP.',
+          keywords: 'brief qualification sans fichier dimensions matiere couleur delai budget',
+          body: `Bonjour {client}, merci pour votre message ! Pour que je puisse chiffrer votre {projet} proprement, j'ai besoin de 4 infos rapides :
+1. Les dimensions approximatives (L × l × H)
+2. L'usage prévu (déco intérieur, extérieur/soleil, ou pièce mécanique sous contrainte)
+3. La finition/couleur souhaitée (brut, poncé/peint, LED…)
+4. La date souhaitée et votre budget indicatif
+
+Dès que j'ai ça, je vous fais un retour rapide !`
+        },
+        {
+          id: 'q2',
+          category: 'qualification',
+          title: 'Réception de fichier STL / STEP',
+          when: 'Juste après avoir reçu un fichier 3D à analyser avant chiffrage.',
+          keywords: 'stl step fichier recu faisabilite imprimabilite devis',
+          body: `Bonjour {client}, c'est {moi} de {entreprise}. J'ai bien reçu votre fichier pour {projet}. Je vérifie l'imprimabilité (épaisseurs, tolérances et temps machine) et je vous envoie le devis précis {rappel}. Si j'ai un doute technique, je vous appelle 2 minutes.`
+        },
+        {
+          id: 'q3',
+          category: 'qualification',
+          title: 'Récapitulatif de fin d’échange',
+          when: 'À la fin d’un appel ou d’un échange DM pour verrouiller le besoin avant de chiffrer.',
+          keywords: 'recapitulatif brief priorite budget finition delai',
+          body: `Je récapitule pour être sûr qu'on est alignés : vous voulez {projet} pour {rappel}. Votre priorité principale, c'est [le budget / la finition / le délai]. C'est bien ça ?`
+        },
+
+        // --- DEVIS & ACOMPTE ---
+        {
+          id: 'd1',
+          category: 'devis',
+          title: 'Envoi du devis + cadrage périmètre',
+          when: 'Au moment d’envoyer le PDF du devis (ne jamais envoyer un PDF tout seul).',
+          keywords: 'envoi devis pdf perimetre modelisation matiere finitions',
+          body: `Bonjour {client}, voici le devis de {montant} pour votre {projet}.
+Ça inclut la modélisation/préparation, l'impression dans la matière adaptée et les finitions convenues (hors modifications majeures après validation du rendu 3D).
+
+Est-ce qu'il reste un point technique ou de délai qui vous empêche de lancer le projet avec nous ?`
+        },
+        {
+          id: 'd2',
+          category: 'devis',
+          title: 'Validation & demande d’acompte (30 à 50 %)',
+          when: 'Dès que le client dit oui — pour bloquer le créneau machine et commander la matière.',
+          keywords: 'acompte validation paiement 40% bloquer creneau filament',
+          body: `Très clair {client}, on valide le projet maintenant. Pour bloquer le créneau machine, commander le filament et lancer la modélisation/l'impression de {projet}, l'acompte est de {acompte}. Dès qu'il est encaissé, je lance la production et je vous confirme la date de livraison.`
+        },
+
+        // --- RELANCES (J+2 À J+20) ---
+        {
+          id: 'r1',
+          category: 'relances',
+          tag: 'J+2',
+          title: 'J+2 — Vérifier la réception du devis',
+          when: '2 jours après l’envoi du devis, sans réponse.',
+          keywords: 'relance j+2 j2 reception devis flou technique',
+          body: `Bonjour {client}, c'est {moi} de {entreprise}. Vous avez bien reçu le devis pour {projet} ? S'il reste un point technique flou (matière, dimensions ou finition), dites-moi lequel et je vous rappelle.`
+        },
+        {
+          id: 'r2',
+          category: 'relances',
+          tag: 'J+2 Suite',
+          title: 'J+2 (suite si tout est clair) — Caler l’appel',
+          when: 'Le client répond « Oui bien reçu, je regarde ».',
+          keywords: 'relance j+2 appel 5 minutes agenda',
+          body: `Parfait {client}. Je vous appelle {rappel} pendant 5 minutes pour savoir où vous en êtes et répondre à vos questions si besoin.`
+        },
+        {
+          id: 'r3',
+          category: 'relances',
+          tag: 'J+5',
+          title: 'J+5 — Sortir le vrai blocage (SMS / Vocal)',
+          when: '5 jours après l’envoi (ou si le client ne décroche pas à l’appel).',
+          keywords: 'relance j+5 j5 blocage appel sms finition delai budget',
+          body: `Bonjour {client}, je viens d'essayer de vous joindre pour votre {projet}. Qu'est-ce qu'il vous manque pour décider aujourd'hui : un détail technique/finition, le délai ou le budget ?`
+        },
+        {
+          id: 'r4',
+          category: 'relances',
+          tag: 'J+10',
+          title: 'J+10 — Obtenir une position (Choix 1 / 2 / 3)',
+          when: '10 jours après l’envoi sans retour clair — taux de réponse très élevé.',
+          keywords: 'relance j+10 j10 choix 1 2 3 position dossier',
+          body: `Bonjour {client}, le projet {projet} est toujours prévu ?
+Répondez simplement :
+1 — vous voulez avancer mais un point reste à régler
+2 — le projet est reporté à plus tard
+3 — vous avez choisi une autre solution
+
+Comme ça je mets le dossier à jour de mon côté.`
+        },
+        {
+          id: 'r5',
+          category: 'relances',
+          tag: 'J+10 Perdu',
+          title: 'J+10 (si réponse 3 — perdu) — Comprendre pourquoi',
+          when: 'Le client a choisi un concurrent ou abandonné — pour t’améliorer.',
+          keywords: 'relance j+10 perdu feedback concurrent raison',
+          body: `Merci pour votre retour transparent {client}. Pour que je puisse m'améliorer sur mes prochains devis, qu'est-ce qui a fait la différence dans votre choix ?`
+        },
+        {
+          id: 'r6',
+          category: 'relances',
+          tag: 'J+20',
+          title: 'J+20 / Vieux devis — Fermer le dossier',
+          when: '20 jours sans réponse OU pour réveiller un vieux devis qui dort.',
+          keywords: 'relance j+20 j20 vieux devis fermer classer dossier oui',
+          body: `Bonjour {client}, c'est {moi} de {entreprise}. Je fais le dernier point sur votre devis pour {projet}. Sans retour de votre part, je classe le dossier {rappel}. Si le projet est toujours prévu, répondez simplement OUI et je vous rappelle.`
+        },
+
+        // --- OBJECTIONS (SPÉCIAL IMPRESSION 3D) ---
+        {
+          id: 'o1',
+          category: 'objections',
+          title: '« C’est trop cher » — Diagnostic avant tout',
+          when: 'Ne jamais faire une remise dans la seconde. Comprendre à quoi il compare.',
+          keywords: 'objection trop cher prix budget concurrent comparer',
+          body: `Je comprends {client}. Pour que je puisse vous aider : vous comparez {montant} avec le budget que vous aviez prévu au départ, ou avec un autre devis qu'on vous a fait ?`
+        },
+        {
+          id: 'o2',
+          category: 'objections',
+          title: '« C’est trop cher » — Ajuster le périmètre (sans brader)',
+          when: 'Son budget est plus bas : tu retires un vrai poste au lieu de casser ton prix.',
+          keywords: 'objection trop cher remise perimetre brut poncage peinture echelle matiere',
+          body: `Pour rentrer dans votre budget sans baisser la solidité, je ne peux pas faire exactement la même prestation moins cher, mais je peux ajuster le périmètre : par exemple passer en finition brute (sans ponçage/peinture) ou réduire légèrement l'échelle/le remplissage pour descendre autour de [nouveau montant] €. Si on garde tout comme prévu, on reste à {montant}. Vous préférez quelle version ?`
+        },
+        {
+          id: 'o3',
+          category: 'objections',
+          title: '« J’ai trouvé moins cher ailleurs » — Comparer les specs',
+          when: 'Un concurrent ou un particulier sur Leboncoin propose moins cher.',
+          keywords: 'objection moins cher concurrent pla petg abs cao finition qualite',
+          body: `C'est normal de comparer. Sur l'impression 3D, l'écart vient souvent de 3 choses : est-ce que l'autre devis inclut bien la modélisation CAO, la même matière (ex: PETG/ABS plutôt que du PLA basique) et le même niveau de finition/solidité ? Sur quelle ligne précise vous avez le plus gros écart ?`
+        },
+        {
+          id: 'o4',
+          category: 'objections',
+          title: '« Je réfléchis »',
+          when: 'Objection floue : isole le vrai point et fixe un créneau précis.',
+          keywords: 'objection je reflechis hesitation rappel',
+          body: `Pas de souci {client}. Vous devez surtout réfléchir au budget, au rendu technique, ou simplement au bon moment pour lancer {projet} ? Je vous propose qu'on se rappelle {rappel} pendant 5 minutes et vous me dites oui, non, ou ce qu'il reste à ajuster.`
+        },
+        {
+          id: 'o5',
+          category: 'objections',
+          title: '« J’attends d’autres devis »',
+          when: 'Le prospect compare plusieurs prestataires.',
+          keywords: 'objection autres devis comparer specs',
+          body: `C'est tout à fait normal de comparer. Vous attendez les autres devis pour quand ? Je vous rappelle le lendemain et on compare les specs (matière, solidité, finition) ensemble si vous voulez.`
+        },
+        {
+          id: 'o6',
+          category: 'objections',
+          title: '« Je vous rappelle »',
+          when: 'Pour éviter que le dossier ne tombe dans les oubliettes.',
+          keywords: 'objection je vous rappelle creneau horaire',
+          body: `Pour éviter qu'on se loupe avec nos plannings, on bloque 5 minutes tout de suite : vous êtes plus dispo {rappel} ou le lendemain à midi ?`
+        },
+
+        // --- PRODUCTION & MODIFICATIONS ---
+        {
+          id: 'p1',
+          category: 'production',
+          title: 'Validation avant impression (rendu 3D / cotes)',
+          when: 'OBLIGATOIRE avant de lancer une grosse impression ou après la phase CAO.',
+          keywords: 'validation avant impression rendu 3d cao cotes ok lancement',
+          body: `Bonjour {client}, voici le rendu 3D et les cotes finales pour {projet}. Merci de vérifier que tout vous convient et de me répondre "OK pour impression". Dès votre feu vert, je lance les machines (toute modification après lancement nécessitera un supplément).`
+        },
+        {
+          id: 'p2',
+          category: 'production',
+          title: 'Demande de modification hors devis',
+          when: 'Le client demande un ajout ou un changement en cours de route.',
+          keywords: 'modification hors devis avenant supplement cao print',
+          body: `Bonjour {client}, j'ai bien noté votre demande de modification sur {projet}. Comme ce n'était pas prévu dans le devis initial, cela demande environ [X]h de CAO/impression en plus et [Y] € de matière. Je vous envoie l'avenant pour accord avant de modifier ?`
+        },
+        {
+          id: 'p3',
+          category: 'production',
+          title: 'Alerte imprévu / réimpression (transparence pro)',
+          when: 'Un print échoue ou un défaut apparaît et décale légèrement la livraison.',
+          keywords: 'retard imprevu echec impression qualite transparence',
+          body: `Bonjour {client}, petit point transparent sur votre {projet} : une pièce n'est pas sortie au niveau de qualité que j'exige, donc j'ai relancé une impression neuve pour que le rendu soit nickel. La livraison est juste décalée à {rappel}. Merci pour votre compréhension !`
+        },
+
+        // --- LIVRAISON & AVIS ---
+        {
+          id: 'l1',
+          category: 'livraison',
+          title: 'Projet prêt + solde avant envoi / retrait',
+          when: 'Pièce terminée et vérifiée (joins une belle photo avec ce message).',
+          keywords: 'livraison pret photo solde paiement expedition retrait',
+          body: `Bonjour {client}, bonne nouvelle : votre {projet} est terminé ! Voici une photo du résultat final. Dès que le solde restant est réglé, je prépare l'expédition (ou on valide le créneau de retrait {rappel}).`
+        },
+        {
+          id: 'l2',
+          category: 'livraison',
+          title: 'Demande d’avis + photo en situation (J+3)',
+          when: '3 jours après la livraison pour nourrir ton portfolio et tes réseaux.',
+          keywords: 'avis client photo situation portfolio reseaux temoignage',
+          body: `Bonjour {client}, j'espère que votre {projet} vous plaît et rend bien en place ! Si vous avez 30 secondes, une petite photo en situation et un rapide avis m'aideraient énormément pour développer {entreprise}. Merci d'avance !`
+        },
+      ];
+
+      /* ============================================================
+         3. DEFAULT STATE & INITIALIZATION
+      ============================================================ */
+      const DEFAULT_VARS = {
+        client: 'Julien',
+        projet: 'lightbox LED garage',
+        montant: '450',
+        acompte: '180',
+        rappel: 'jeudi à 18h',
+        moi: 'Mathis',
+        entreprise: 'MV3D',
+      };
+
+      function daysAgoISO(days) {
+        const d = new Date();
+        d.setDate(d.getDate() - days);
+        return d.toISOString().split('T')[0];
+      }
+
+      const DEFAULT_QUOTES = [
+        {
+          id: 'demo-1',
+          client: 'Julien',
+          contact: '06 42 18 90 11',
+          projet: 'Lightbox LED garage 60cm',
+          montant: 380,
+          date: daysAgoISO(3),
+          statut: 'en_attente',
+          note: 'Veut un rendu propre avec variateur LED'
+        },
+        {
+          id: 'demo-2',
+          client: 'Camille',
+          contact: '@camille.events',
+          projet: 'Sculpture 1m20 événementiel',
+          montant: 1450,
+          date: daysAgoISO(6),
+          statut: 'en_attente',
+          note: 'Attend validation du budget par son client final'
+        },
+        {
+          id: 'demo-3',
+          client: 'Thomas',
+          contact: 'thomas@atelier-auto.fr',
+          projet: 'Lot de 50 porte-clés pro gravés',
+          montant: 290,
+          date: daysAgoISO(11),
+          statut: 'en_attente',
+          note: 'Devis envoyé avec remise volume'
+        }
+      ];
+
+      const CHECKLIST_DEF = [
+        { id: 'c1', text: 'Ajouter mes 10 derniers devis sans réponse dans l’onglet Suivi Devis.' },
+        { id: 'c2', text: 'Envoyer à chacun le bon message de relance (J+2, J+5, J+10 ou J+20).' },
+        { id: 'c3', text: 'Programmer mes 2 alarmes récurrentes (mardi & jeudi à 18h10) pour les relances.' },
+        { id: 'c4', text: 'Inscrire clairement l’acompte (30 à 50 %) sur mon prochain devis.' },
+        { id: 'c5', text: 'Passer mon prochain gros projet 3D dans le Calculateur de marge avant de lancer.' },
+        { id: 'c6', text: 'Faire valider le rendu 3D par écrit (« OK pour impression ») avant de démarrer le print.' },
+      ];
+
+      let state = {
+        activeTab: 'messages',
+        vars: Object.assign({}, DEFAULT_VARS, loadJSON(STORAGE_KEYS.VARS, {})),
+        favs: loadJSON(STORAGE_KEYS.FAVS, ['r1', 'r4', 'd2', 'o2']),
+        customMessages: loadJSON(STORAGE_KEYS.CUSTOM_MSGS, []),
+        quotes: loadJSON(STORAGE_KEYS.QUOTES, DEFAULT_QUOTES),
+        checklist: loadJSON(STORAGE_KEYS.CHECKLIST, {}),
+        goal: loadJSON(STORAGE_KEYS.GOAL, { text: '', date: '' }),
+        activeCategory: 'all',
+        searchQuery: '',
+        quoteFilter: 'all',
+        varsCollapsed: false,
+      };
+
+      /* ============================================================
+         4. UTILITIES (ESCAPE, FORMAT, CLIPBOARD, TOAST)
+      ============================================================ */
+      function escapeHTML(str) {
+        return String(str || '')
+          .replace(/&/g, '&amp;')
+          .replace(/</g, '&lt;')
+          .replace(/>/g, '&gt;')
+          .replace(/"/g, '&quot;')
+          .replace(/'/g, '&#39;');
+      }
+
+      function formatEUR(val) {
+        const num = Number(val) || 0;
+        return new Intl.NumberFormat('fr-FR', { maximumFractionDigits: 0 }).format(Math.round(num)) + ' €';
+      }
+
+      function formatEURDecimals(val) {
+        const num = Number(val) || 0;
+        return new Intl.NumberFormat('fr-FR', { minimumFractionDigits: 0, maximumFractionDigits: 2 }).format(num) + ' €';
+      }
+
+      let toastTimer = null;
+      function showToast(text) {
+        const toast = document.getElementById('toast');
+        document.getElementById('toast-text').textContent = text;
+        toast.classList.remove('opacity-0', 'translate-y-2');
+        toast.classList.add('opacity-100', 'translate-y-0');
+        clearTimeout(toastTimer);
+        toastTimer = setTimeout(() => {
+          toast.classList.add('opacity-0', 'translate-y-2');
+          toast.classList.remove('opacity-100', 'translate-y-0');
+        }, 2200);
+      }
+
+      // Reliable clipboard copy compatible with iframes
+      function copyToClipboard(text) {
+        try {
+          const textarea = document.createElement('textarea');
+          textarea.value = text;
+          textarea.setAttribute('readonly', '');
+          textarea.style.position = 'fixed';
+          textarea.style.top = '-9999px';
+          textarea.style.left = '-9999px';
+          document.body.appendChild(textarea);
+          textarea.select();
+          textarea.setSelectionRange(0, textarea.value.length);
+          const ok = document.execCommand('copy');
+          document.body.removeChild(textarea);
+          return ok;
+        } catch (e) {
+          return false;
+        }
+      }
+
+      /* ============================================================
+         5. NAVIGATION TABS
+      ============================================================ */
+      function switchTab(tabId) {
+        state.activeTab = tabId;
+        document.querySelectorAll('.view-section').forEach(sec => {
+          sec.classList.toggle('hidden', sec.id !== 'view-' + tabId);
+        });
+
+        // Desktop tabs
+        document.querySelectorAll('.nav-tab-desktop').forEach(btn => {
+          const active = btn.dataset.tab === tabId;
+          btn.classList.toggle('bg-white', active);
+          btn.classList.toggle('text-slate-900', active);
+          btn.classList.toggle('shadow-sm', active);
+          btn.classList.toggle('text-slate-600', !active);
+          btn.classList.toggle('hover:text-slate-900', !active);
+        });
+
+        // Mobile tabs
+        document.querySelectorAll('.nav-tab-mobile').forEach(btn => {
+          const active = btn.dataset.tab === tabId;
+          btn.classList.toggle('text-brand-600', active);
+          btn.classList.toggle('bg-brand-50', active);
+          btn.classList.toggle('text-slate-500', !active);
+        });
+
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+
+      document.querySelectorAll('.nav-tab-desktop, .nav-tab-mobile').forEach(btn => {
+        btn.addEventListener('click', () => switchTab(btn.dataset.tab));
+      });
+
+      /* ============================================================
+         6. VUE 1 : MESSAGES ENGINE
+      ============================================================ */
+      function getResolvedValues() {
+        const v = state.vars;
+        return {
+          client: (v.client || '').trim() || '[Prénom]',
+          projet: (v.projet || '').trim() || '[Projet 3D]',
+          montant: (v.montant || '').toString().trim() ? `${v.montant} €` : '[Montant] €',
+          acompte: (v.acompte || '').toString().trim() ? `${v.acompte} €` : '[Acompte] €',
+          rappel: (v.rappel || '').trim() || '[Jour / Heure]',
+          moi: (v.moi || '').trim() || 'Mathis',
+          entreprise: (v.entreprise || '').trim() || 'MV3D',
+        };
+      }
+
+      function renderMessagePlainText(template) {
+        const vals = getResolvedValues();
+        return template.replace(/\{(client|projet|montant|acompte|rappel|moi|entreprise)\}/g, (_, key) => vals[key]);
+      }
+
+      function renderMessageHTML(template) {
+        const vals = getResolvedValues();
+        const escaped = escapeHTML(template);
+        return escaped
+          .replace(/\{(client|projet|montant|acompte|rappel|moi|entreprise)\}/g, (_, key) => {
+            return `<span class="var-token">${escapeHTML(vals[key])}</span>`;
+          })
+          .replace(/\n/g, '<br>');
+      }
+
+      function getAllMessages() {
+        return [...state.customMessages, ...DEFAULT_MESSAGES];
+      }
+
+      function syncVarsInputs() {
+        document.getElementById('var-client').value = state.vars.client || '';
+        document.getElementById('var-projet').value = state.vars.projet || '';
+        document.getElementById('var-montant').value = state.vars.montant || '';
+        document.getElementById('var-acompte').value = state.vars.acompte || '';
+        document.getElementById('var-rappel').value = state.vars.rappel || '';
+        document.getElementById('var-moi').value = state.vars.moi || '';
+        document.getElementById('var-entreprise').value = state.vars.entreprise || '';
+      }
+
+      function renderCategoryPills() {
+        const container = document.getElementById('category-pills');
+        container.innerHTML = CATEGORIES.map(cat => {
+          const isActive = state.activeCategory === cat.id;
+          const classes = isActive
+            ? 'bg-slate-900 text-white border-slate-900 shadow-sm'
+            : 'bg-white text-slate-600 border-slate-200 hover:border-slate-300 hover:bg-slate-50';
+          return `<button data-cat="${cat.id}" class="cat-pill shrink-0 px-3.5 py-2 rounded-full text-xs font-semibold border transition ${classes}">${cat.label}</button>`;
+        }).join('');
+
+        container.querySelectorAll('.cat-pill').forEach(btn => {
+          btn.addEventListener('click', () => {
+            state.activeCategory = btn.dataset.cat;
+            renderCategoryPills();
+            renderMessages();
+          });
+        });
+      }
+
+      function renderMessages() {
+        const grid = document.getElementById('messages-grid');
+        const query = state.searchQuery.trim().toLowerCase();
+        const all = getAllMessages();
+
+        let filtered = all.filter(msg => {
+          const isFav = state.favs.includes(msg.id);
+          if (state.activeCategory === 'favoris' && !isFav) return false;
+          if (state.activeCategory !== 'all' && state.activeCategory !== 'favoris' && msg.category !== state.activeCategory) {
+            return false;
+          }
+          if (!query) return true;
+          const haystack = [
+            msg.title,
+            msg.when,
+            msg.keywords || '',
+            msg.tag || '',
+            msg.body,
+            renderMessagePlainText(msg.body)
+          ].join(' ').toLowerCase();
+          return haystack.includes(query);
+        });
+
+        // Sort favorites first
+        filtered.sort((a, b) => {
+          const fa = state.favs.includes(a.id) ? 1 : 0;
+          const fb = state.favs.includes(b.id) ? 1 : 0;
+          return fb - fa;
+        });
+
+        document.getElementById('msg-count-label').textContent =
+          `${filtered.length} message${filtered.length > 1 ? 's' : ''} prêt${filtered.length > 1 ? 's' : ''} à copier`;
+
+        if (filtered.length === 0) {
+          grid.innerHTML = `
+            <div class="col-span-full bg-white border border-slate-200 rounded-2xl p-8 text-center space-y-2">
+              <p class="font-display font-bold text-slate-900">Aucun message trouvé</p>
+              <p class="text-sm text-slate-500">Essaie un autre mot-clé (ex: acompte, J+5, trop cher, STL) ou réinitialise les filtres.</p>
+              <button id="btn-reset-empty-search" class="mt-2 px-4 py-2 rounded-xl bg-brand-50 text-brand-700 text-xs font-bold hover:bg-brand-100">Voir tous les messages</button>
+            </div>
+          `;
+          const resetBtn = document.getElementById('btn-reset-empty-search');
+          if (resetBtn) {
+            resetBtn.addEventListener('click', () => {
+              state.searchQuery = '';
+              state.activeCategory = 'all';
+              document.getElementById('msg-search').value = '';
+              document.getElementById('btn-clear-search').classList.add('hidden');
+              renderCategoryPills();
+              renderMessages();
+            });
+          }
+          return;
+        }
+
+        grid.innerHTML = filtered.map(msg => {
+          const catObj = CATEGORIES.find(c => c.id === msg.category) || CATEGORIES[0];
+          const isFav = state.favs.includes(msg.id);
+          const isCustom = Boolean(msg.custom);
+
+          return `
+            <article class="bg-white border ${isFav ? 'border-brand-300 ring-1 ring-brand-500/10' : 'border-slate-200'} rounded-2xl p-4 sm:p-5 shadow-sm hover:shadow-md transition flex flex-col justify-between gap-4">
+              <div class="space-y-3">
+                <!-- Card Header -->
+                <div class="flex items-start justify-between gap-2">
+                  <div class="flex flex-wrap items-center gap-1.5">
+                    <span class="text-[11px] font-bold px-2.5 py-0.5 rounded-full ${catObj.badgeClass}">${catObj.label}</span>
+                    ${msg.tag ? `<span class="text-[11px] font-extrabold px-2 py-0.5 rounded-full bg-slate-900 text-white">${escapeHTML(msg.tag)}</span>` : ''}
+                    ${isCustom ? `<span class="text-[11px] font-bold px-2 py-0.5 rounded-full bg-purple-50 text-purple-700 border border-purple-200">Perso</span>` : ''}
+                  </div>
+                  <div class="flex items-center gap-1 shrink-0">
+                    ${isCustom ? `
+                      <button data-del-msg="${msg.id}" class="btn-del-custom-msg p-1.5 rounded-lg text-slate-400 hover:text-rose-600 hover:bg-rose-50 transition" title="Supprimer ce message perso">
+                        <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/></svg>
+                      </button>
+                    ` : ''}
+                    <button data-fav-msg="${msg.id}" class="btn-fav-msg p-1.5 rounded-lg transition ${isFav ? 'text-amber-500 bg-amber-50' : 'text-slate-300 hover:text-amber-500 hover:bg-slate-50'}" title="${isFav ? 'Retirer des favoris' : 'Épingler en favori'}">
+                      <svg class="w-4 h-4" viewBox="0 0 24 24" fill="${isFav ? 'currentColor' : 'none'}" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                    </button>
+                  </div>
+                </div>
+
+                <!-- Title & When to use -->
+                <div>
+                  <h3 class="font-display font-bold text-base text-slate-900 leading-snug">${escapeHTML(msg.title)}</h3>
+                  ${msg.when ? `<p class="text-xs text-slate-500 mt-0.5">${escapeHTML(msg.when)}</p>` : ''}
+                </div>
+
+                <!-- Script Body -->
+                <div class="bg-slate-50 border border-slate-200/80 rounded-xl p-3.5 text-sm text-slate-800 leading-relaxed">
+                  ${renderMessageHTML(msg.body)}
+                </div>
+              </div>
+
+              <!-- Actions Footer -->
+              <div class="flex items-center gap-2 pt-1">
+                <button data-copy-msg="${msg.id}" class="btn-copy-msg flex-1 py-2.5 px-4 rounded-xl bg-slate-900 hover:bg-slate-800 active:scale-[0.99] text-white text-sm font-semibold transition flex items-center justify-center gap-2 shadow-sm">
+                  <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                  <span>Copier le message</span>
+                </button>
+                <button data-wa-msg="${msg.id}" class="btn-wa-msg py-2.5 px-3.5 rounded-xl bg-emerald-50 hover:bg-emerald-100 text-emerald-700 border border-emerald-200 text-sm font-semibold transition flex items-center gap-1.5" title="Ouvrir dans WhatsApp">
+                  <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+                  <span class="hidden sm:inline">WhatsApp</span>
+                </button>
+              </div>
+            </article>
+          `;
+        }).join('');
+
+        // Bind card actions
+        grid.querySelectorAll('.btn-copy-msg').forEach(btn => {
+          btn.addEventListener('click', () => {
+            const msg = all.find(m => m.id === btn.dataset.copyMsg);
+            if (!msg) return;
+            const plain = renderMessagePlainText(msg.body);
+            copyToClipboard(plain);
+            const span = btn.querySelector('span');
+            const orig = span.textContent;
+            btn.classList.remove('bg-slate-900', 'hover:bg-slate-800');
+            btn.classList.add('bg-emerald-600');
+            span.textContent = 'Copié ✓';
+            showToast('Message copié dans le presse-papiers !');
+            setTimeout(() => {
+              btn.classList.add('bg-slate-900', 'hover:bg-slate-800');
+              btn.classList.remove('bg-emerald-600');
+              span.textContent = orig;
+            }, 1400);
+          });
+        });
+
+        grid.querySelectorAll('.btn-wa-msg').forEach(btn => {
+          btn.addEventListener('click', () => {
+            const msg = all.find(m => m.id === btn.dataset.waMsg);
+            if (!msg) return;
+            const plain = renderMessagePlainText(msg.body);
+            window.open(`https://wa.me/?text=${encodeURIComponent(plain)}`, '_blank', 'noopener');
+          });
+        });
+
+        grid.querySelectorAll('.btn-fav-msg').forEach(btn => {
+          btn.addEventListener('click', () => {
+            const id = btn.dataset.favMsg;
+            if (state.favs.includes(id)) {
+              state.favs = state.favs.filter(f => f !== id);
+              showToast('Retiré des favoris');
+            } else {
+              state.favs.push(id);
+              showToast('Épinglé en favori ★');
+            }
+            saveJSON(STORAGE_KEYS.FAVS, state.favs);
+            renderMessages();
+          });
+        });
+
+        grid.querySelectorAll('.btn-del-custom-msg').forEach(btn => {
+          btn.addEventListener('click', () => {
+            const id = btn.dataset.delMsg;
+            state.customMessages = state.customMessages.filter(m => m.id !== id);
+            state.favs = state.favs.filter(f => f !== id);
+            saveJSON(STORAGE_KEYS.CUSTOM_MSGS, state.customMessages);
+            saveJSON(STORAGE_KEYS.FAVS, state.favs);
+            showToast('Message personnalisé supprimé');
+            renderMessages();
+          });
+        });
+      }
+
+      // Bind Quick Personalization Inputs
+      ['client', 'projet', 'montant', 'acompte', 'rappel', 'moi', 'entreprise'].forEach(key => {
+        const el = document.getElementById('var-' + key);
+        el.addEventListener('input', () => {
+          state.vars[key] = el.value;
+          // Auto-calc 40% acompte when montant changes
+          if (key === 'montant') {
+            const m = parseFloat(el.value);
+            if (!isNaN(m) && m > 0) {
+              const autoAcompte = Math.round(m * 0.4);
+              state.vars.acompte = String(autoAcompte);
+              document.getElementById('var-acompte').value = autoAcompte;
+            } else {
+              state.vars.acompte = '';
+              document.getElementById('var-acompte').value = '';
+            }
+          }
+          saveJSON(STORAGE_KEYS.VARS, state.vars);
+          renderMessages();
+        });
+      });
+
+      document.getElementById('btn-reset-vars').addEventListener('click', () => {
+        state.vars = {
+          client: '',
+          projet: '',
+          montant: '',
+          acompte: '',
+          rappel: '',
+          moi: 'Mathis',
+          entreprise: 'MV3D',
+        };
+        saveJSON(STORAGE_KEYS.VARS, state.vars);
+        syncVarsInputs();
+        renderMessages();
+        showToast('Champs réinitialisés');
+      });
+
+      document.getElementById('toggle-vars-btn').addEventListener('click', () => {
+        state.varsCollapsed = !state.varsCollapsed;
+        document.getElementById('vars-panel').classList.toggle('hidden', state.varsCollapsed);
+        document.getElementById('vars-chevron').classList.toggle('-rotate-90', state.varsCollapsed);
+      });
+
+      // Search input
+      const searchInput = document.getElementById('msg-search');
+      const clearSearchBtn = document.getElementById('btn-clear-search');
+      searchInput.addEventListener('input', () => {
+        state.searchQuery = searchInput.value;
+        clearSearchBtn.classList.toggle('hidden', !state.searchQuery);
+        renderMessages();
+      });
+      clearSearchBtn.addEventListener('click', () => {
+        state.searchQuery = '';
+        searchInput.value = '';
+        clearSearchBtn.classList.add('hidden');
+        document.getElementById('relance-context-banner').classList.add('hidden');
+        renderMessages();
+      });
+
+      document.getElementById('btn-clear-relance-banner').addEventListener('click', () => {
+        document.getElementById('relance-context-banner').classList.add('hidden');
+        state.searchQuery = '';
+        state.activeCategory = 'all';
+        searchInput.value = '';
+        clearSearchBtn.classList.add('hidden');
+        renderCategoryPills();
+        renderMessages();
+      });
+
+      // Custom message modal
+      const modalAddMsg = document.getElementById('modal-add-msg');
+      const closeModalMsg = () => modalAddMsg.classList.add('hidden');
+      document.getElementById('btn-open-add-msg').addEventListener('click', () => {
+        modalAddMsg.classList.remove('hidden');
+        document.getElementById('custom-msg-title').focus();
+      });
+      document.getElementById('btn-close-modal-msg').addEventListener('click', closeModalMsg);
+      document.getElementById('btn-cancel-modal-msg').addEventListener('click', closeModalMsg);
+      modalAddMsg.addEventListener('click', e => {
+        if (e.target === modalAddMsg) closeModalMsg();
+      });
+
+      document.querySelectorAll('.insert-var-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const ta = document.getElementById('custom-msg-body');
+          const token = btn.dataset.insert;
+          const start = ta.selectionStart || ta.value.length;
+          const end = ta.selectionEnd || ta.value.length;
+          ta.value = ta.value.slice(0, start) + token + ta.value.slice(end);
+          ta.focus();
+          ta.selectionStart = ta.selectionEnd = start + token.length;
+        });
+      });
+
+      document.getElementById('form-add-msg').addEventListener('submit', e => {
+        e.preventDefault();
+        const title = document.getElementById('custom-msg-title').value.trim();
+        const category = document.getElementById('custom-msg-cat').value;
+        const when = document.getElementById('custom-msg-when').value.trim();
+        const body = document.getElementById('custom-msg-body').value.trim();
+        if (!title || !body) return;
+
+        const newMsg = {
+          id: 'custom-' + Date.now(),
+          category,
+          title,
+          when,
+          body,
+          keywords: title + ' perso',
+          custom: true,
+        };
+        state.customMessages.unshift(newMsg);
+        saveJSON(STORAGE_KEYS.CUSTOM_MSGS, state.customMessages);
+        e.target.reset();
+        closeModalMsg();
+        switchTab('messages');
+        state.activeCategory = 'all';
+        renderCategoryPills();
+        renderMessages();
+        showToast('Message perso ajouté !');
+      });
+
+      /* ============================================================
+         7. VUE 2 : SUIVI DES DEVIS (MINI-CRM)
+      ============================================================ */
+      function getDaysSince(dateStr) {
+        if (!dateStr) return 0;
+        const sent = new Date(dateStr + 'T00:00:00');
+        const now = new Date();
+        const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+        const diff = Math.floor((today - sent) / (1000 * 60 * 60 * 24));
+        return Math.max(0, diff);
+      }
+
+      function getQuoteAction(quote) {
+        if (quote.statut === 'signe') {
+          return { label: 'Signé ✓', badge: 'bg-emerald-50 text-emerald-700 border-emerald-200', urgent: false, stage: null };
+        }
+        if (quote.statut === 'perdu') {
+          return { label: 'Perdu', badge: 'bg-slate-100 text-slate-500 border-slate-200', urgent: false, stage: null };
+        }
+        const days = getDaysSince(quote.date);
+        if (days >= 20) return { label: 'Fermer J+20', badge: 'bg-rose-50 text-rose-700 border-rose-200', urgent: true, stage: 'J+20' };
+        if (days >= 10) return { label: 'Relance J+10', badge: 'bg-brand-100 text-brand-700 border-brand-300', urgent: true, stage: 'J+10' };
+        if (days >= 5) return { label: 'Relance J+5', badge: 'bg-brand-50 text-brand-700 border-brand-200', urgent: true, stage: 'J+5' };
+        if (days >= 2) return { label: 'Relance J+2', badge: 'bg-amber-50 text-amber-700 border-amber-200', urgent: true, stage: 'J+2' };
+        return { label: 'À jour (< J+2)', badge: 'bg-sky-50 text-sky-700 border-sky-200', urgent: false, stage: 'J+2' };
+      }
+
+      function triggerFollowUpFromQuote(quote) {
+        const action = getQuoteAction(quote);
+        const firstName = (quote.client || '').trim().split(' ')[0] || quote.client;
+        const montant = String(quote.montant || '');
+        const acompte = quote.montant ? String(Math.round(quote.montant * 0.4)) : '';
+
+        state.vars.client = firstName;
+        state.vars.projet = quote.projet || '';
+        state.vars.montant = montant;
+        state.vars.acompte = acompte;
+        saveJSON(STORAGE_KEYS.VARS, state.vars);
+        syncVarsInputs();
+
+        const stageQuery = action.stage || 'J+2';
+        state.activeCategory = 'relances';
+        state.searchQuery = stageQuery;
+        document.getElementById('msg-search').value = stageQuery;
+        document.getElementById('btn-clear-search').classList.remove('hidden');
+
+        // Show contextual banner
+        const banner = document.getElementById('relance-context-banner');
+        document.getElementById('relance-banner-title').textContent = `Relance ${stageQuery} prête pour ${quote.client}`;
+        document.getElementById('relance-banner-sub').textContent = `Projet : ${quote.projet} (${formatEUR(quote.montant)}) — Copie ou envoie sur WhatsApp en 1 clic.`;
+        banner.classList.remove('hidden');
+
+        renderCategoryPills();
+        renderMessages();
+        switchTab('messages');
+      }
+
+      function renderQuotes() {
+        const pending = state.quotes.filter(q => q.statut === 'en_attente');
+        const signed = state.quotes.filter(q => q.statut === 'signe');
+        const lost = state.quotes.filter(q => q.statut === 'perdu');
+
+        const pendingSum = pending.reduce((s, q) => s + (Number(q.montant) || 0), 0);
+        const signedSum = signed.reduce((s, q) => s + (Number(q.montant) || 0), 0);
+        const toFollowUpCount = pending.filter(q => getQuoteAction(q).urgent).length;
+        const closedCount = signed.length + lost.length;
+        const winRate = closedCount > 0 ? Math.round((signed.length / closedCount) * 100) : 0;
+
+        // Update KPIs
+        document.getElementById('kpi-pending-amount').textContent = formatEUR(pendingSum);
+        document.getElementById('kpi-pending-count').textContent = `${pending.length} devis ouvert${pending.length > 1 ? 's' : ''}`;
+        document.getElementById('kpi-to-followup').textContent = toFollowUpCount;
+        document.getElementById('kpi-signed-amount').textContent = formatEUR(signedSum);
+        document.getElementById('kpi-signed-count').textContent = `${signed.length} devis signé${signed.length > 1 ? 's' : ''}`;
+        document.getElementById('kpi-win-rate').textContent = `${winRate} %`;
+
+        // Update nav badges
+        ['badge-relances-desktop', 'badge-relances-mobile'].forEach(id => {
+          const el = document.getElementById(id);
+          if (toFollowUpCount > 0) {
+            el.textContent = toFollowUpCount;
+            el.classList.remove('hidden');
+          } else {
+            el.classList.add('hidden');
+          }
+        });
+
+        // Update filter pills
+        document.querySelectorAll('.qfilter-pill').forEach(btn => {
+          const active = btn.dataset.qfilter === state.quoteFilter;
+          btn.className = `qfilter-pill px-3.5 py-1.5 rounded-full text-xs font-semibold border transition ${
+            active
+              ? 'bg-slate-900 text-white border-slate-900'
+              : 'bg-white text-slate-600 border-slate-200 hover:bg-slate-50'
+          }`;
+        });
+
+        // Filter & sort quotes (pending urgent first, then newest)
+        const list = state.quotes
+          .filter(q => state.quoteFilter === 'all' || q.statut === state.quoteFilter)
+          .sort((a, b) => {
+            if (a.statut === 'en_attente' && b.statut !== 'en_attente') return -1;
+            if (a.statut !== 'en_attente' && b.statut === 'en_attente') return 1;
+            return getDaysSince(b.date) - getDaysSince(a.date);
+          });
+
+        const container = document.getElementById('quotes-container');
+        if (list.length === 0) {
+          container.innerHTML = `
+            <div class="bg-white border border-slate-200 rounded-2xl p-8 text-center">
+              <p class="font-display font-bold text-slate-900">Aucun devis dans cette vue</p>
+              <p class="text-sm text-slate-500 mt-1">Clique sur « Nouveau devis » pour ajouter tes 10 derniers devis sans réponse.</p>
+            </div>
+          `;
+          return;
+        }
+
+        container.innerHTML = list.map(q => {
+          const days = getDaysSince(q.date);
+          const action = getQuoteAction(q);
+          return `
+            <div class="bg-white border border-slate-200 rounded-2xl p-4 shadow-sm hover:border-slate-300 transition flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+              <div class="flex-1 min-w-0 space-y-1.5">
+                <div class="flex flex-wrap items-center gap-2">
+                  <span class="font-display font-bold text-base text-slate-900">${escapeHTML(q.client)}</span>
+                  <span class="text-xs font-bold px-2.5 py-0.5 rounded-full border ${action.badge}">${action.label}</span>
+                  <span class="text-xs font-semibold text-slate-500 bg-slate-100 px-2 py-0.5 rounded-md">${days === 0 ? "Aujourd'hui" : 'J+' + days}</span>
+                </div>
+                <p class="text-sm font-medium text-slate-800">${escapeHTML(q.projet)}</p>
+                <div class="flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-slate-500">
+                  ${q.contact ? `<span>📞 ${escapeHTML(q.contact)}</span>` : ''}
+                  <span>📅 Envoyé le ${escapeHTML(q.date)}</span>
+                  ${q.note ? `<span class="text-slate-600 italic">« ${escapeHTML(q.note)} »</span>` : ''}
+                </div>
+              </div>
+
+              <div class="flex flex-wrap sm:flex-nowrap items-center justify-between lg:justify-end gap-3 pt-3 lg:pt-0 border-t lg:border-t-0 border-slate-100">
+                <div class="text-left lg:text-right mr-2">
+                  <p class="font-display font-extrabold text-lg text-slate-900">${formatEUR(q.montant)}</p>
+                  <select data-status-id="${q.id}" class="quote-status-select mt-0.5 text-xs font-semibold rounded-lg border border-slate-200 px-2 py-1 bg-slate-50 text-slate-700 outline-none focus:border-brand-500">
+                    <option value="en_attente" ${q.statut === 'en_attente' ? 'selected' : ''}>En attente</option>
+                    <option value="signe" ${q.statut === 'signe' ? 'selected' : ''}>Signé</option>
+                    <option value="perdu" ${q.statut === 'perdu' ? 'selected' : ''}>Perdu</option>
+                  </select>
+                </div>
+
+                <div class="flex items-center gap-1.5">
+                  ${q.statut === 'en_attente' ? `
+                    <button data-relance-id="${q.id}" class="btn-relance-quote px-3.5 py-2 rounded-xl bg-brand-500 hover:bg-brand-600 text-white text-xs sm:text-sm font-semibold transition shadow-sm flex items-center gap-1.5">
+                      Relancer →
+                    </button>
+                  ` : ''}
+                  <button data-edit-id="${q.id}" class="btn-edit-quote p-2 rounded-xl border border-slate-200 text-slate-500 hover:text-slate-900 hover:bg-slate-50 transition" title="Modifier">
+                    <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+                  </button>
+                  <button data-del-id="${q.id}" class="btn-del-quote p-2 rounded-xl border border-slate-200 text-slate-400 hover:text-rose-600 hover:bg-rose-50 transition" title="Supprimer">
+                    <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/></svg>
+                  </button>
+                </div>
+              </div>
+            </div>
+          `;
+        }).join('');
+
+        // Bind quote row actions
+        container.querySelectorAll('.btn-relance-quote').forEach(btn => {
+          btn.addEventListener('click', () => {
+            const q = state.quotes.find(item => item.id === btn.dataset.relanceId);
+            if (q) triggerFollowUpFromQuote(q);
+          });
+        });
+
+        container.querySelectorAll('.quote-status-select').forEach(sel => {
+          sel.addEventListener('change', () => {
+            const q = state.quotes.find(item => item.id === sel.dataset.statusId);
+            if (!q) return;
+            q.statut = sel.value;
+            saveJSON(STORAGE_KEYS.QUOTES, state.quotes);
+            renderQuotes();
+            showToast(`Statut mis à jour : ${q.statut === 'signe' ? 'Signé 🎉' : q.statut === 'perdu' ? 'Perdu' : 'En attente'}`);
+          });
+        });
+
+        container.querySelectorAll('.btn-edit-quote').forEach(btn => {
+          btn.addEventListener('click', () => {
+            const q = state.quotes.find(item => item.id === btn.dataset.editId);
+            if (!q) return;
+            openQuoteForm(q);
+          });
+        });
+
+        container.querySelectorAll('.btn-del-quote').forEach(btn => {
+          btn.addEventListener('click', () => {
+            state.quotes = state.quotes.filter(item => item.id !== btn.dataset.delId);
+            saveJSON(STORAGE_KEYS.QUOTES, state.quotes);
+            renderQuotes();
+            showToast('Devis supprimé');
+          });
+        });
+      }
+
+      // Quote Form Management
+      const quoteForm = document.getElementById('quote-form');
+      function openQuoteForm(quoteToEdit = null) {
+        quoteForm.classList.remove('hidden');
+        if (quoteToEdit) {
+          document.getElementById('quote-form-title').textContent = 'Modifier le devis';
+          document.getElementById('q-id').value = quoteToEdit.id;
+          document.getElementById('q-client').value = quoteToEdit.client || '';
+          document.getElementById('q-contact').value = quoteToEdit.contact || '';
+          document.getElementById('q-projet').value = quoteToEdit.projet || '';
+          document.getElementById('q-montant').value = quoteToEdit.montant || '';
+          document.getElementById('q-date').value = quoteToEdit.date || daysAgoISO(0);
+          document.getElementById('q-statut').value = quoteToEdit.statut || 'en_attente';
+          document.getElementById('q-note').value = quoteToEdit.note || '';
+        } else {
+          document.getElementById('quote-form-title').textContent = 'Ajouter un devis à suivre';
+          quoteForm.reset();
+          document.getElementById('q-id').value = '';
+          document.getElementById('q-date').value = daysAgoISO(0);
+        }
+        document.getElementById('q-client').focus();
+      }
+
+      document.getElementById('btn-toggle-quote-form').addEventListener('click', () => {
+        if (quoteForm.classList.contains('hidden')) {
+          openQuoteForm(null);
+        } else {
+          quoteForm.classList.add('hidden');
+        }
+      });
+
+      document.getElementById('btn-cancel-quote').addEventListener('click', () => {
+        quoteForm.classList.add('hidden');
+      });
+
+      quoteForm.addEventListener('submit', e => {
+        e.preventDefault();
+        const id = document.getElementById('q-id').value;
+        const payload = {
+          id: id || ('q-' + Date.now()),
+          client: document.getElementById('q-client').value.trim(),
+          contact: document.getElementById('q-contact').value.trim(),
+          projet: document.getElementById('q-projet').value.trim(),
+          montant: Number(document.getElementById('q-montant').value) || 0,
+          date: document.getElementById('q-date').value,
+          statut: document.getElementById('q-statut').value,
+          note: document.getElementById('q-note').value.trim(),
+        };
+
+        if (id) {
+          const idx = state.quotes.findIndex(q => q.id === id);
+          if (idx !== -1) state.quotes[idx] = payload;
+          showToast('Devis mis à jour');
+        } else {
+          state.quotes.unshift(payload);
+          showToast('Devis ajouté au suivi !');
+        }
+        saveJSON(STORAGE_KEYS.QUOTES, state.quotes);
+        quoteForm.classList.add('hidden');
+        renderQuotes();
+      });
+
+      document.querySelectorAll('.qfilter-pill').forEach(btn => {
+        btn.addEventListener('click', () => {
+          state.quoteFilter = btn.dataset.qfilter;
+          renderQuotes();
+        });
+      });
+
+      // Export CSV
+      document.getElementById('btn-export-csv').addEventListener('click', () => {
+        const headers = ['Client', 'Contact', 'Projet', 'Montant HT (€)', 'Date envoi', 'Anciennete', 'Statut', 'Action', 'Note'];
+        const rows = state.quotes.map(q => {
+          const action = getQuoteAction(q).label;
+          const age = 'J+' + getDaysSince(q.date);
+          return [q.client, q.contact, q.projet, q.montant, q.date, age, q.statut, action, q.note]
+            .map(cell => `"${String(cell || '').replace(/"/g, '""')}"`)
+            .join(';');
+        });
+        const csvContent = '\uFEFF' + [headers.join(';'), ...rows].join('\n');
+        const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = `mv3d-suivi-devis-${daysAgoISO(0)}.csv`;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        URL.revokeObjectURL(url);
+        showToast('Fichier CSV exporté !');
+      });
+
+      /* ============================================================
+         8. VUE 3 : CALCULATEURS IMPRESSION 3D
+      ============================================================ */
+      function updateCalc1() {
+        const nb = Math.max(0, Number(document.getElementById('calc1-nb').value) || 0);
+        const avg = Math.max(0, Number(document.getElementById('calc1-avg').value) || 0);
+        const signed = Math.max(0, Number(document.getElementById('calc1-signed').value) || 0);
+
+        document.getElementById('calc1-nb-val').textContent = `${nb} devis`;
+        document.getElementById('calc1-avg-val').textContent = formatEUR(avg);
+
+        const total = nb * avg;
+        document.getElementById('calc1-total').textContent = formatEUR(total);
+        document.getElementById('calc1-s1').textContent = '+' + formatEUR(avg);
+        document.getElementById('calc1-s2').textContent = '+' + formatEUR(avg * 2);
+        document.getElementById('calc1-s3').textContent = '+' + formatEUR(avg * 3);
+
+        const boostEl = document.getElementById('calc1-boost');
+        if (signed > 0) {
+          const pct = ((avg * 3) / signed) * 100;
+          boostEl.innerHTML = `3 signatures récupérées = <strong class="text-white">+${pct.toFixed(1).replace('.', ',')} %</strong> de CA en plus sur tes ${formatEUR(signed)} déjà signés.`;
+        } else {
+          boostEl.textContent = 'Ajoute ton CA déjà signé pour voir le pourcentage de croissance.';
+        }
+      }
+
+      // Sync sliders and numbers for Calc 1
+      const c1NbRange = document.getElementById('calc1-nb-range');
+      const c1NbNum = document.getElementById('calc1-nb');
+      c1NbRange.addEventListener('input', () => { c1NbNum.value = c1NbRange.value; updateCalc1(); });
+      c1NbNum.addEventListener('input', () => { c1NbRange.value = Math.min(50, c1NbNum.value || 1); updateCalc1(); });
+
+      const c1AvgRange = document.getElementById('calc1-avg-range');
+      const c1AvgNum = document.getElementById('calc1-avg');
+      c1AvgRange.addEventListener('input', () => { c1AvgNum.value = c1AvgRange.value; updateCalc1(); });
+      c1AvgNum.addEventListener('input', () => { c1AvgRange.value = Math.min(5000, c1AvgNum.value || 50); updateCalc1(); });
+
+      document.getElementById('calc1-signed').addEventListener('input', updateCalc1);
+
+      // Calculator 2: Real 3D Project Margin
+      function updateCalc2() {
+        const devis = Math.max(0, Number(document.getElementById('c2-devis').value) || 0);
+        const kg = Math.max(0, Number(document.getElementById('c2-kg').value) || 0);
+        const prixKg = Math.max(0, Number(document.getElementById('c2-prixkg').value) || 0);
+        const conso = Math.max(0, Number(document.getElementById('c2-conso').value) || 0);
+        const printH = Math.max(0, Number(document.getElementById('c2-print-h').value) || 0);
+        const printRate = Math.max(0, Number(document.getElementById('c2-print-rate').value) || 0);
+        const humanH = Math.max(0, Number(document.getElementById('c2-human-h').value) || 0);
+        const humanRate = Math.max(0, Number(document.getElementById('c2-human-rate').value) || 0);
+        const failPct = Math.max(0, Number(document.getElementById('c2-fail').value) || 0);
+
+        document.getElementById('c2-fail-val').textContent = `${failPct} %`;
+
+        const matCost = kg * prixKg;
+        const machineCost = printH * printRate;
+        const failCost = (matCost + machineCost) * (failPct / 100);
+        const humanCost = humanH * humanRate;
+
+        const directMaterialAndConso = matCost + conso;
+        const totalCost = directMaterialAndConso + machineCost + failCost + humanCost;
+        const netMargin = devis - totalCost;
+        const marginPct = devis > 0 ? (netMargin / devis) * 100 : 0;
+
+        // Real hourly rate earned for human time = (Devis - non-human costs) / humanH
+        const grossBeforeHuman = devis - (directMaterialAndConso + machineCost + failCost);
+        const realHourly = humanH > 0 ? grossBeforeHuman / humanH : 0;
+
+        document.getElementById('c2-margin-eur').textContent = formatEURDecimals(netMargin);
+        document.getElementById('c2-margin-pct').textContent = `${marginPct.toFixed(1).replace('.', ',')} %`;
+        document.getElementById('c2-total-cost').textContent = formatEURDecimals(totalCost);
+        document.getElementById('c2-real-hourly').textContent = humanH > 0 ? `${realHourly.toFixed(1).replace('.', ',')} €/h` : '—';
+
+        // Health styling
+        const card = document.getElementById('c2-result-card');
+        const badge = document.getElementById('c2-health-badge');
+        card.classList.remove(
+          'bg-rose-50', 'border-rose-200', 'text-rose-950',
+          'bg-amber-50', 'border-amber-200', 'text-amber-950',
+          'bg-emerald-50', 'border-emerald-200', 'text-emerald-950'
+        );
+        badge.classList.remove('bg-rose-600', 'bg-amber-500', 'bg-emerald-600', 'text-white');
+
+        if (marginPct < 25) {
+          card.classList.add('bg-rose-50', 'border-rose-200', 'text-rose-950');
+          badge.classList.add('bg-rose-600', 'text-white');
+          badge.textContent = 'Marge faible (< 25 %)';
+        } else if (marginPct <= 45) {
+          card.classList.add('bg-amber-50', 'border-amber-200', 'text-amber-950');
+          badge.classList.add('bg-amber-500', 'text-white');
+          badge.textContent = 'Correcte (25–45 %)';
+        } else {
+          card.classList.add('bg-emerald-50', 'border-emerald-200', 'text-emerald-950');
+          badge.classList.add('bg-emerald-600', 'text-white');
+          badge.textContent = 'Excellente (> 45 %)';
+        }
+
+        // Stacked breakdown bar
+        const denom = Math.max(devis, totalCost, 1);
+        const segments = [
+          { label: 'Matière & Conso', value: directMaterialAndConso, color: 'bg-sky-500' },
+          { label: 'Machine & Ratés', value: machineCost + failCost, color: 'bg-violet-500' },
+          { label: 'Temps humain', value: humanCost, color: 'bg-amber-500' },
+          { label: 'Marge nette', value: Math.max(0, netMargin), color: 'bg-emerald-500' },
+        ];
+
+        document.getElementById('c2-bar').innerHTML = segments
+          .filter(s => s.value > 0)
+          .map(s => `<div class="${s.color} h-full" style="width:${(s.value / denom) * 100}%"></div>`)
+          .join('');
+
+        document.getElementById('c2-legend').innerHTML = segments.map(s => `
+          <span class="inline-flex items-center gap-1">
+            <span class="w-2 h-2 rounded-full ${s.color}"></span>
+            ${s.label} : <strong>${formatEUR(s.value)}</strong>
+          </span>
+        `).join('');
+      }
+
+      ['c2-devis', 'c2-kg', 'c2-prixkg', 'c2-conso', 'c2-print-h', 'c2-print-rate', 'c2-human-h', 'c2-human-rate', 'c2-fail'].forEach(id => {
+        document.getElementById(id).addEventListener('input', updateCalc2);
+      });
+
+      /* ============================================================
+         9. VUE 4 : PLAYBOOK CHECKLIST & 4-MONTH GOAL
+      ============================================================ */
+      function renderChecklist() {
+        const container = document.getElementById('checklist-items');
+        let doneCount = 0;
+
+        container.innerHTML = CHECKLIST_DEF.map(item => {
+          const checked = Boolean(state.checklist[item.id]);
+          if (checked) doneCount++;
+          return `
+            <label class="flex items-start gap-3 p-3 rounded-xl border cursor-pointer transition ${
+              checked ? 'bg-emerald-50/60 border-emerald-200' : 'bg-slate-50/70 border-slate-200 hover:bg-slate-50'
+            }">
+              <input type="checkbox" data-check-id="${item.id}" ${checked ? 'checked' : ''} class="mt-0.5 w-4 h-4 rounded accent-brand-500 cursor-pointer shrink-0" />
+              <span class="text-sm ${checked ? 'line-through text-slate-400' : 'text-slate-800 font-medium'}">${escapeHTML(item.text)}</span>
+            </label>
+          `;
+        }).join('');
+
+        const pct = Math.round((doneCount / CHECKLIST_DEF.length) * 100);
+        document.getElementById('checklist-progress-label').textContent = `${doneCount} / ${CHECKLIST_DEF.length} complétés`;
+        document.getElementById('checklist-progress-bar').style.width = `${pct}%`;
+
+        container.querySelectorAll('input[type="checkbox"]').forEach(cb => {
+          cb.addEventListener('change', () => {
+            state.checklist[cb.dataset.checkId] = cb.checked;
+            saveJSON(STORAGE_KEYS.CHECKLIST, state.checklist);
+            renderChecklist();
+          });
+        });
+      }
+
+      function renderGoal() {
+        const display = document.getElementById('goal-display');
+        const form = document.getElementById('goal-form');
+        const editBtn = document.getElementById('btn-edit-goal');
+
+        if (state.goal && state.goal.text) {
+          document.getElementById('goal-display-text').textContent = `« ${state.goal.text} »`;
+          document.getElementById('goal-display-meta').textContent = state.goal.date
+            ? `Échéance visée : ${state.goal.date}`
+            : 'Objectif actif — garde le cap chaque semaine.';
+          display.classList.remove('hidden');
+          form.classList.add('hidden');
+          editBtn.classList.remove('hidden');
+        } else {
+          display.classList.add('hidden');
+          form.classList.remove('hidden');
+          editBtn.classList.add('hidden');
+        }
+      }
+
+      document.getElementById('goal-form').addEventListener('submit', e => {
+        e.preventDefault();
+        const text = document.getElementById('goal-input').value.trim();
+        const date = document.getElementById('goal-date').value;
+        if (!text) return;
+        state.goal = { text, date };
+        saveJSON(STORAGE_KEYS.GOAL, state.goal);
+        renderGoal();
+        showToast('Objectif à 4 mois enregistré !');
+      });
+
+      document.getElementById('btn-edit-goal').addEventListener('click', () => {
+        document.getElementById('goal-input').value = state.goal.text || '';
+        document.getElementById('goal-date').value = state.goal.date || '';
+        document.getElementById('goal-display').classList.add('hidden');
+        document.getElementById('goal-form').classList.remove('hidden');
+        document.getElementById('btn-edit-goal').classList.add('hidden');
+        document.getElementById('goal-input').focus();
+      });
+
+      /* ============================================================
+         10. INITIAL BOOT
+      ============================================================ */
+      function init() {
+        syncVarsInputs();
+        renderCategoryPills();
+        renderMessages();
+        renderQuotes();
+        updateCalc1();
+        updateCalc2();
+        renderChecklist();
+        renderGoal();
+        switchTab('messages');
+      }
+
+      init();
+    })();
+  </script>
+</body>
+</html>
